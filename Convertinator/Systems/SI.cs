@@ -58,7 +58,9 @@
         {
             public static Unit Liter
             {
-                get { return new Unit("liter"); }
+                get { return new Unit("liter")
+                    .IsAlsoCalled("litre")
+                    .CanBeAbbreviated("l", "L"); }
             }
         }
 

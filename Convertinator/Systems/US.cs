@@ -45,7 +45,9 @@
         {
             public static Unit Gallon
             {
-                get { return new Unit("gallon"); }
+                get { return new Unit("gallon")
+                    .IsAlsoCalled("US liquid gallon")
+                    .CanBeAbbreviated("gal"); }
             }
         }
 

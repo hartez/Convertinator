@@ -21,5 +21,18 @@ namespace Convertinator
 
             return graph;
         }
+
+        public static ConversionGraph Volume()
+        {
+            var graph = new ConversionGraph();
+
+            var gallons = US.Volume.Gallon;
+            var liter = SI.Volume.Liter;
+
+            graph.AddConversion(
+                Conversions.From(gallons).To(liter).MultiplyBy(3.78541M));
+
+            return graph;
+        }
     }
 }
