@@ -56,12 +56,13 @@
     <Compile Include="ConversionGraph.cs" />
     <Compile Include="ConversionNotFoundException.cs" />
     <Compile Include="Conversions.cs" />
+    <Compile Include="DefaultConfigurations.cs" />
     <Compile Include="IConversionStep.cs" />
     <Compile Include="Measurement.cs" />
+    <Compile Include="Systems\SI.cs" />
+    <Compile Include="Systems\US.cs" />
     <Compile Include="Unit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SI.cs" />
-    <Compile Include="US.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

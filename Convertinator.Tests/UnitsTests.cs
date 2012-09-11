@@ -1,5 +1,6 @@
 using FluentAssertions;
 using NUnit.Framework;
+using Convertinator.Systems;
 
 namespace Convertinator.Tests
 {
@@ -9,7 +10,7 @@ namespace Convertinator.Tests
         [SetUp]
         public void Setup()
         {
-            SI.Celcius
+            SI.Temperature.Celcius
                 .CanBeAbbreviated("C", "°C")
                 .IsAlsoCalled("centigrade", "celcius", "Centigrade", " C");
         }
@@ -17,14 +18,14 @@ namespace Convertinator.Tests
         [Test]
         public void CelciusMatchesAlternates()
         {
-            SI.Celcius.Matches("C").Should().BeTrue();
-            SI.Celcius.Matches("°C").Should().BeTrue();
-            SI.Celcius.Matches("celcius").Should().BeTrue();
-            SI.Celcius.Matches("Centigrade").Should().BeTrue();
-            SI.Celcius.Matches("centigrade").Should().BeTrue();
-            SI.Celcius.Matches(" C").Should().BeTrue();
+            SI.Temperature.Celcius.Matches("C").Should().BeTrue();
+            SI.Temperature.Celcius.Matches("°C").Should().BeTrue();
+            SI.Temperature.Celcius.Matches("celcius").Should().BeTrue();
+            SI.Temperature.Celcius.Matches("Centigrade").Should().BeTrue();
+            SI.Temperature.Celcius.Matches("centigrade").Should().BeTrue();
+            SI.Temperature.Celcius.Matches(" C").Should().BeTrue();
 
-            SI.Celcius.Matches(" foo").Should().BeFalse();
+            SI.Temperature.Celcius.Matches(" foo").Should().BeFalse();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using FluentAssertions;
 using NUnit.Framework;
+using Convertinator.Systems;
 
 namespace Convertinator.Tests
 {
@@ -14,15 +15,15 @@ namespace Convertinator.Tests
         {
             _graph = new ConversionGraph();
 
-            Conversion c = Conversions.One(SI.Meter).In(US.Feet).Is(3.28084M);
-
-            SI.Meter
-                .CanBeAbbreviated("m")
-                .IsAlsoCalled("Meters");
+            Conversion c = Conversions.One(SI.Length.Meter).In(US.Length.Foot).Is(3.28084M);
 
             _graph.AddConversion(c);
 
-            Conversion x = Conversions.One(SI.Kilometer).In(SI.Meter).Is(1000M);
+            SI.Length.Meter
+                .CanBeAbbreviated("mtr")
+                .IsAlsoCalled("Metres");
+            
+            Conversion x = Conversions.One(SI.Length.Kilometer).In(SI.Length.Meter).Is(1000M);
 
             _graph.AddConversion(x);
 
@@ -38,7 +39,7 @@ namespace Convertinator.Tests
         [Test]
         public void FindVertexForFeetShouldSucceed()
         {
-            Unit vertex = _graph.FindVertex(US.Feet);
+            Unit vertex = _graph.FindVertex(US.Length.Foot);
 
             vertex.Should().NotBeNull();
         }
@@ -46,7 +47,7 @@ namespace Convertinator.Tests
         [Test]
         public void FindVertexForLiterShouldFail()
         {
-            Unit start = _graph.FindVertex(new Measurement(SI.Liter, 42M));
+            Unit start = _graph.FindVertex(new Measurement(SI.Volume.Liter, 42M));
 
             start.Should().BeNull();
         }
@@ -54,7 +55,7 @@ namespace Convertinator.Tests
         [Test]
         public void FindVertexForMeterShouldSucceed()
         {
-            Unit start = _graph.FindVertex(new Measurement(SI.Meter, 42M));
+            Unit start = _graph.FindVertex(new Measurement(SI.Length.Meter, 42M));
 
             start.Should().NotBeNull();
         }
@@ -62,7 +63,7 @@ namespace Convertinator.Tests
         [Test]
         public void FindVertexForMeterStringShouldSucceed()
         {
-            Unit start = _graph.FindVertex("Meter");
+            Unit start = _graph.FindVertex("Metres");
 
             start.Should().NotBeNull();
         }
@@ -70,11 +71,11 @@ namespace Convertinator.Tests
         [Test]
         public void FindVertexForMeterAliasShouldSucceed()
         {
-            Unit start = _graph.FindVertex("Meters");
+            Unit start = _graph.FindVertex("Metres");
 
             start.Should().NotBeNull();
 
-            start = _graph.FindVertex("m");
+            start = _graph.FindVertex("mtr");
 
             start.Should().NotBeNull();
         }
@@ -82,11 +83,11 @@ namespace Convertinator.Tests
         [Test]
         public void FindVertexForMeasurementFromMeterAliasShouldSucceed()
         {
-            Unit start = _graph.FindVertex(new Measurement("Meters", 10));
+            Unit start = _graph.FindVertex(new Measurement("Metres", 10));
 
             start.Should().NotBeNull();
 
-            start = _graph.FindVertex(new Measurement("m", 10));
+            start = _graph.FindVertex(new Measurement("mtr", 10));
 
             start.Should().NotBeNull();
         }
@@ -94,7 +95,7 @@ namespace Convertinator.Tests
         [Test]
         public void FindVertexForMeasurementFromMeterNameShouldSucceed()
         {
-            Unit start = _graph.FindVertex(new Measurement("Meter", 10));
+            Unit start = _graph.FindVertex(new Measurement("Metres", 10));
 
             start.Should().NotBeNull();
         }
@@ -111,13 +112,13 @@ namespace Convertinator.Tests
         public void NonexistentSourceUnitsShouldThrowException()
         {
             var oneFoo = new Measurement(new Unit("foo"), 1M);
-            Assert.Throws(typeof(ConversionNotFoundException), () => _graph.Convert(oneFoo, US.Feet));
+            Assert.Throws(typeof(ConversionNotFoundException), () => _graph.Convert(oneFoo, US.Length.Foot));
         }
 
         [Test]
         public void NonexistentTargetUnitsShouldThrowException()
         {
-            var oneMeter = new Measurement(SI.Meter, 1M);
+            var oneMeter = new Measurement(SI.Length.Meter, 1M);
             Assert.Throws(typeof(ConversionNotFoundException), () => _graph.Convert(oneMeter, new Unit("foo")));
         }
     }

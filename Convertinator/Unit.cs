@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Convertinator
 {
@@ -10,11 +9,16 @@ namespace Convertinator
         {
             Name = name;
             _aliases = new List<string>();
+            _abbreviations = new List<string>();
         }
 
         public Unit CanBeAbbreviated(string abbreviation, params string[] otherAbbreviations)
         {
-            IsAlsoCalled(abbreviation, otherAbbreviations);
+            _abbreviations.Add(abbreviation);
+            if (otherAbbreviations.Length > 0)
+            {
+                _abbreviations.AddRange(otherAbbreviations);
+            }
             return this;
         }
 
@@ -29,8 +33,12 @@ namespace Convertinator
         }
 
         public string Name { get; set; }
+
         private readonly List<string> _aliases;
         public IEnumerable<string> Aliases { get { return _aliases.AsEnumerable(); } }
+
+        private readonly List<string> _abbreviations;
+        public IEnumerable<string> Abbreviations { get { return _abbreviations.AsEnumerable(); } }
 
         public override string ToString()
         {
@@ -44,7 +52,7 @@ namespace Convertinator
                 return true;
             }
 
-            return _aliases.Contains(name);
+            return _aliases.Concat(_abbreviations).Contains(name);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using Convertinator.Systems;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -19,11 +20,11 @@ namespace Convertinator.Tests
                 .RoundToDecimalPlaces(4);
 
             _graph.AddConversion(
-                Conversions.From(US.Fahrenheit).To(SI.Celcius).Subtract(32).MultiplyBy(5M / 9M));
+                Conversions.From(US.Temperature.Fahrenheit).To(SI.Temperature.Celcius).Subtract(32).MultiplyBy(5M / 9M));
 
-            _graph.AddConversion(Conversions.From(SI.Celcius).To(new Unit("Kelvin")).Add(273.15M));
+            _graph.AddConversion(Conversions.From(SI.Temperature.Celcius).To(new Unit("Kelvin")).Add(273.15M));
 
-            SI.Celcius
+            SI.Temperature.Celcius
                 .CanBeAbbreviated("C", "°C")
                 .IsAlsoCalled("centigrade", "celcius", "Centigrade");
         }

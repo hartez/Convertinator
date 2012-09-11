@@ -23,10 +23,24 @@ namespace Convertinator
             return this;
         }
 
-        public void AddConversion(Conversion conversion)
+        public void AddConversion(Conversion conversion, params Conversion[] moreConversions)
         {
             AddVerticesAndEdge(conversion);
             AddVerticesAndEdge(conversion.Reverse());
+
+            if(moreConversions.Length > 0)
+            {
+                foreach(var additionalConversion in moreConversions)
+                {
+                    AddVerticesAndEdge(additionalConversion);
+                    AddVerticesAndEdge(additionalConversion.Reverse());
+                }
+            }
+        }
+
+        public IEnumerable<Unit> ConfiguredUnits
+        {
+            get { return Vertices; }
         }
 
         public Unit FindVertex(Measurement measurement)
@@ -42,6 +56,11 @@ namespace Convertinator
         public Unit FindVertex(string unit)
         {
             return Vertices.FirstOrDefault(u => u.Matches(unit));
+        }
+
+        public decimal Convert(Measurement source, string target)
+        {
+            return Convert(source, new Unit(target));
         }
 
         public decimal Convert(Measurement source, Unit target)

@@ -1,4 +1,5 @@
 using System;
+using Convertinator.Systems;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -16,11 +17,11 @@ namespace Convertinator.Tests
         {
             _graph = new ConversionGraph();
 
-            Conversion c = Conversions.One(SI.Meter).In(US.Feet).Is(3.28084M);
+            Conversion c = Conversions.One(SI.Length.Meter).In(US.Length.Foot).Is(3.28084M);
 
             _graph.AddConversion(c);
 
-            Conversion x = Conversions.One(SI.Kilometer).In(SI.Meter).Is(1000M);
+            Conversion x = Conversions.One(SI.Length.Kilometer).In(SI.Length.Meter).Is(1000M);
 
             _graph.AddConversion(x);
 
@@ -34,9 +35,9 @@ namespace Convertinator.Tests
         [Test]
         public void ConvertOneFootToMeters()
         {
-            var oneFoot = new Measurement(US.Feet, 1M);
+            var oneFoot = new Measurement(US.Length.Foot, 1M);
 
-            decimal feet = _graph.Convert(oneFoot, SI.Meter);
+            decimal feet = _graph.Convert(oneFoot, SI.Length.Meter);
 
             feet.Should().Be(0.3048M);
         }
@@ -44,9 +45,9 @@ namespace Convertinator.Tests
         [Test]
         public void ConvertOneMeterToFeet()
         {
-            var oneMeter = new Measurement(SI.Meter, 1M);
+            var oneMeter = new Measurement(SI.Length.Meter, 1M);
 
-            decimal feet = _graph.Convert(oneMeter, US.Feet);
+            decimal feet = _graph.Convert(oneMeter, US.Length.Foot);
 
             feet.Should().Be(3.2808M);
         }
@@ -54,9 +55,9 @@ namespace Convertinator.Tests
         [Test]
         public void ConvertOneKilometerToFeet()
         {
-            var oneKilometer = new Measurement(SI.Kilometer, 1M);
+            var oneKilometer = new Measurement(SI.Length.Kilometer, 1M);
 
-            decimal feet = _graph.Convert(oneKilometer, US.Feet);
+            decimal feet = _graph.Convert(oneKilometer, US.Length.Foot);
 
             feet.Should().Be(3280.84M);
         }
@@ -64,9 +65,9 @@ namespace Convertinator.Tests
         [Test]
         public void ConvertOneMeterToMeters()
         {
-            var oneMeter = new Measurement(SI.Meter, 1M);
+            var oneMeter = new Measurement(SI.Length.Meter, 1M);
 
-            decimal feet = _graph.Convert(oneMeter, SI.Meter);
+            decimal feet = _graph.Convert(oneMeter, SI.Length.Meter);
 
             feet.Should().Be(1M);
         }
