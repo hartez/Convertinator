@@ -19,10 +19,13 @@ namespace Convertinator.Tests
                 .RoundUsing(MidpointRounding.AwayFromZero)
                 .RoundToDecimalPlaces(4);
 
-            _graph.AddConversion(
-                Conversions.From(US.Temperature.Fahrenheit).To(SI.Temperature.Celcius).Subtract(32).MultiplyBy(5M / 9M));
+            var fahrenheit = US.Temperature.Fahrenheit;
+            var celcius = SI.Temperature.Celcius;
 
-            _graph.AddConversion(Conversions.From(SI.Temperature.Celcius).To(new Unit("Kelvin")).Add(273.15M));
+            _graph.AddConversion(
+                Conversions.From(fahrenheit).To(celcius).Subtract(32).MultiplyBy(5M / 9M));
+
+            _graph.AddConversion(Conversions.From(celcius).To(new Unit("Kelvin")).Add(273.15M));
 
             SI.Temperature.Celcius
                 .CanBeAbbreviated("C", "°C")
@@ -36,7 +39,7 @@ namespace Convertinator.Tests
         {
             var degrees = new Measurement(new Unit("Fahrenheit"), 32M);
 
-            var result = _graph.Convert(degrees, new Unit("Celcius"));
+            var result = _graph.Convert(degrees, "Celcius");
 
             result.Should().Be(0M);
         }
@@ -46,7 +49,7 @@ namespace Convertinator.Tests
         {
             var degrees = new Measurement(new Unit("Celcius"), 0M);
 
-            var result = _graph.Convert(degrees, new Unit("Fahrenheit"));
+            var result = _graph.Convert(degrees, "Fahrenheit");
 
             result.Should().Be(32M);
         }
@@ -56,7 +59,7 @@ namespace Convertinator.Tests
         {
             var degrees = new Measurement(new Unit("Celcius"), 0M);
 
-            var result = _graph.Convert(degrees, new Unit("Kelvin"));
+            var result = _graph.Convert(degrees, "Kelvin");
 
             result.Should().Be(273.15M);
         }

@@ -6,13 +6,25 @@
 
         public static class Length
         {
-            public static Unit Meter = new Unit("meter")
-                .IsAlsoCalled("metre")
-                .CanBeAbbreviated("m");
+            public static Unit Meter
+            {
+                get
+                {
+                    return new Unit("meter")
+                        .IsAlsoCalled("metre")
+                        .CanBeAbbreviated("m");
+                }
+            }
 
-            public static readonly Unit Kilometer = new Unit("kilometer")
-                .IsAlsoCalled("kilometre")
-                .CanBeAbbreviated("km");
+            public static Unit Kilometer
+            {
+                get
+                {
+                    return new Unit("kilometer")
+                        .IsAlsoCalled("kilometre")
+                        .CanBeAbbreviated("km");
+                }
+            }
         }
 
         #endregion
@@ -21,17 +33,35 @@
 
         public static class Temperature
         {
-            public static readonly Unit Kelvin = new Unit("kelvin");
-            public static readonly Unit Celcius = new Unit("degrees Celcius")
-                .IsAlsoCalled("Celcius");
+            public static Unit Celcius
+            {
+                get
+                {
+                    return new Unit("degrees Celcius")
+                        .IsAlsoCalled("Celcius");
+                }
+            }
+
+            public static Unit Kelvin
+            {get
+                {
+                    return new Unit("kelvin");
+                }
+            }
         }
 
         #endregion
 
+        #region Nested type: Volume
+
         public static class Volume
         {
-            public static readonly Unit Liter = new Unit("liter");
+            public static Unit Liter
+            {
+                get { return new Unit("liter"); }
+            }
         }
+
+        #endregion
     }
 }
-

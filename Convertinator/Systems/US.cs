@@ -6,10 +6,19 @@
 
         public static class Length
         {
-            public static readonly Unit Mile = new Unit("mile")
-                .CanBeAbbreviated("mi");
-            
-            public static readonly Unit Foot = new Unit("foot");
+            public static Unit Mile
+            {
+                get
+                {
+                    return new Unit("mile")
+                        .CanBeAbbreviated("mi");
+                }
+            }
+
+            public static Unit Foot
+            {
+                get { return new Unit("foot").CanBeAbbreviated("ft", "'"); }
+            }
         }
 
         #endregion
@@ -18,8 +27,14 @@
 
         public static class Temperature
         {
-            public static readonly Unit Fahrenheit = new Unit("degrees Fahrenheit")
-                .IsAlsoCalled("Fahrenheit");
+            public static Unit Fahrenheit
+            {
+                get
+                {
+                    return new Unit("degrees Fahrenheit")
+                        .IsAlsoCalled("Fahrenheit");
+                }
+            }
         }
 
         #endregion
@@ -28,7 +43,10 @@
 
         public static class Volume
         {
-            public static readonly Unit Gallon = new Unit("gallon");
+            public static Unit Gallon
+            {
+                get { return new Unit("gallon"); }
+            }
         }
 
         #endregion

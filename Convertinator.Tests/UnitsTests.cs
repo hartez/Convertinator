@@ -7,9 +7,12 @@ namespace Convertinator.Tests
     [TestFixture]
     public class UnitsTests
     {
+        private Unit _celcius;
+
         [SetUp]
         public void Setup()
         {
+            _celcius = 
             SI.Temperature.Celcius
                 .CanBeAbbreviated("C", "°C")
                 .IsAlsoCalled("centigrade", "celcius", "Centigrade", " C");
@@ -18,14 +21,14 @@ namespace Convertinator.Tests
         [Test]
         public void CelciusMatchesAlternates()
         {
-            SI.Temperature.Celcius.Matches("C").Should().BeTrue();
-            SI.Temperature.Celcius.Matches("°C").Should().BeTrue();
-            SI.Temperature.Celcius.Matches("celcius").Should().BeTrue();
-            SI.Temperature.Celcius.Matches("Centigrade").Should().BeTrue();
-            SI.Temperature.Celcius.Matches("centigrade").Should().BeTrue();
-            SI.Temperature.Celcius.Matches(" C").Should().BeTrue();
+            _celcius.Matches("C").Should().BeTrue();
+            _celcius.Matches("°C").Should().BeTrue();
+            _celcius.Matches("celcius").Should().BeTrue();
+            _celcius.Matches("Centigrade").Should().BeTrue();
+            _celcius.Matches("centigrade").Should().BeTrue();
+            _celcius.Matches(" C").Should().BeTrue();
 
-            SI.Temperature.Celcius.Matches(" foo").Should().BeFalse();
+            _celcius.Matches(" foo").Should().BeFalse();
         }
     }
 }

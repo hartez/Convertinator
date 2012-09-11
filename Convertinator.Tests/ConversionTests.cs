@@ -17,11 +17,15 @@ namespace Convertinator.Tests
         {
             _graph = new ConversionGraph();
 
-            Conversion c = Conversions.One(SI.Length.Meter).In(US.Length.Foot).Is(3.28084M);
+            var meter = SI.Length.Meter;
+            var feet = US.Length.Foot;
+            var kilometer = SI.Length.Kilometer;
+
+            Conversion c = Conversions.One(meter).In(feet).Is(3.28084M);
 
             _graph.AddConversion(c);
 
-            Conversion x = Conversions.One(SI.Length.Kilometer).In(SI.Length.Meter).Is(1000M);
+            Conversion x = Conversions.One(kilometer).In(meter).Is(1000M);
 
             _graph.AddConversion(x);
 
@@ -37,9 +41,9 @@ namespace Convertinator.Tests
         {
             var oneFoot = new Measurement(US.Length.Foot, 1M);
 
-            decimal feet = _graph.Convert(oneFoot, SI.Length.Meter);
+            decimal meters = _graph.Convert(oneFoot, SI.Length.Meter);
 
-            feet.Should().Be(0.3048M);
+            meters.Should().Be(0.3048M);
         }
 
         [Test]

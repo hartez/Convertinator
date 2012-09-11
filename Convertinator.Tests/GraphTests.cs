@@ -15,15 +15,17 @@ namespace Convertinator.Tests
         {
             _graph = new ConversionGraph();
 
-            Conversion c = Conversions.One(SI.Length.Meter).In(US.Length.Foot).Is(3.28084M);
+            var meter = SI.Length.Meter;
 
-            _graph.AddConversion(c);
-
-            SI.Length.Meter
+            meter
                 .CanBeAbbreviated("mtr")
                 .IsAlsoCalled("Metres");
+
+            Conversion c = Conversions.One(meter).In(US.Length.Foot).Is(3.28084M);
+
+            _graph.AddConversion(c);
             
-            Conversion x = Conversions.One(SI.Length.Kilometer).In(SI.Length.Meter).Is(1000M);
+            Conversion x = Conversions.One(SI.Length.Kilometer).In(meter).Is(1000M);
 
             _graph.AddConversion(x);
 
