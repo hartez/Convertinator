@@ -43,10 +43,43 @@
             }
 
             public static Unit Kelvin
-            {get
+            {
+                get { return new Unit("kelvin"); }
+            }
+        }
+
+        #endregion
+
+        #region Nested type: Time
+
+        /// <summary>
+        /// For now, just handling time measured in seconds, minutes, hours. 
+        /// Things like metric time and leap seconds can wait.
+        /// </summary>
+        public static class Time
+        {
+            public static Unit Second
+            {
+                get
                 {
-                    return new Unit("kelvin");
+                    return new Unit("second")
+                        .CanBeAbbreviated("s", "sec");
                 }
+            }
+
+            public static Unit Minute
+            {
+                get
+                {
+                    return new Unit("minute")
+                        .CanBeAbbreviated("min");
+                }
+            }
+
+            public static Unit Hour
+            {
+                get { return new Unit("hour")
+                    .CanBeAbbreviated("h", "hr"); }
             }
         }
 
@@ -58,9 +91,12 @@
         {
             public static Unit Liter
             {
-                get { return new Unit("liter")
-                    .IsAlsoCalled("litre")
-                    .CanBeAbbreviated("l", "L"); }
+                get
+                {
+                    return new Unit("liter")
+                        .IsAlsoCalled("litre")
+                        .CanBeAbbreviated("l", "L");
+                }
             }
         }
 

@@ -34,5 +34,21 @@ namespace Convertinator
 
             return graph;
         }
+
+        public static ConversionGraph Time()
+        {
+            var graph = new ConversionGraph();
+
+            var seconds = SI.Time.Second;
+            var minutes = SI.Time.Minute;
+            var hours = SI.Time.Hour;
+
+            graph.AddConversion(
+                Conversions.From(hours).To(minutes).MultiplyBy(60),
+                Conversions.From(minutes).To(seconds).MultiplyBy(60)
+                );
+
+            return graph;
+        }
     }
 }
