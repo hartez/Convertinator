@@ -18,10 +18,14 @@ namespace Convertinator.Tests
             var meter = SI.Length.Meter;
 
             meter
+                .UsePluralFormat("{0}s")
                 .CanBeAbbreviated("mtr")
                 .IsAlsoCalled("Metres");
 
-            Conversion c = Conversions.One(meter).In(US.Length.Foot).Is(3.28084M);
+            var feet = US.Length.Foot;
+            feet.PluralizeAs("feet");
+
+            Conversion c = Conversions.One(meter).In(feet).Is(3.28084M);
 
             _graph.AddConversion(c);
             
@@ -58,6 +62,22 @@ namespace Convertinator.Tests
         public void FindVertexForMeterShouldSucceed()
         {
             Unit start = _graph.FindVertex(new Measurement(SI.Length.Meter, 42M));
+
+            start.Should().NotBeNull();
+        }
+
+        [Test]
+        public void FindVertexForPluralFormatShouldSucceed()
+        {
+            Unit start = _graph.FindVertex(new Measurement("meters", 42M));
+
+            start.Should().NotBeNull();
+        }
+
+        [Test]
+        public void FindVertexForExplicitPluralShouldSucceed()
+        {
+            Unit start = _graph.FindVertex(new Measurement("feet", 42M));
 
             start.Should().NotBeNull();
         }

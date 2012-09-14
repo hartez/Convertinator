@@ -30,5 +30,18 @@ namespace Convertinator.Tests
 
             _celcius.Matches(" foo").Should().BeFalse();
         }
+
+        [Test]
+        public void PluralsMatch()
+        {
+            var meter = new Unit("meter")
+                .UsePluralFormat("{0}s");
+
+            var foot = new Unit("foot")
+                .PluralizeAs("feet");
+
+            meter.Matches("meters").Should().BeTrue();
+            foot.Matches("feet").Should().BeTrue();
+        }
     }
 }

@@ -118,6 +118,21 @@ namespace Convertinator
                 return true;
             }
 
+            if(name == _displayAbbreviation)
+            {
+                return true;
+            }
+
+            if(name == _displayName)
+            {
+                return true;
+            }
+
+            if(name == ToPluralString())
+            {
+                return true;
+            }
+
             return _aliases.Concat(_abbreviations).Contains(name);
         }
     }
