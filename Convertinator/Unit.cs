@@ -5,6 +5,13 @@ namespace Convertinator
 {
     public class Unit
     {
+        private readonly List<string> _abbreviations;
+        private readonly List<string> _aliases;
+        private string _displayAbbreviation;
+        private string _displayName;
+        private string _pluralFormat;
+        private string _explicitPlural;
+
         public Unit(string name)
         {
             Name = name;
@@ -13,10 +20,22 @@ namespace Convertinator
             _abbreviations = new List<string>();
         }
 
+        public string Name { get; set; }
+
+        public IEnumerable<string> Aliases
+        {
+            get { return _aliases.AsEnumerable(); }
+        }
+
+        public IEnumerable<string> Abbreviations
+        {
+            get { return _abbreviations.AsEnumerable(); }
+        }
+
         public Unit CanBeAbbreviated(string abbreviation, params string[] otherAbbreviations)
         {
             _abbreviations.Add(abbreviation);
-            if (otherAbbreviations.Length > 0)
+            if(otherAbbreviations.Length > 0)
             {
                 _abbreviations.AddRange(otherAbbreviations);
             }
@@ -26,7 +45,7 @@ namespace Convertinator
         public Unit IsAlsoCalled(string alternateName, params string[] otherNames)
         {
             _aliases.Add(alternateName);
-            if (otherNames.Length > 0)
+            if(otherNames.Length > 0)
             {
                 _aliases.AddRange(otherNames);
             }
@@ -45,15 +64,17 @@ namespace Convertinator
             return this;
         }
 
-        public string Name { get; set; }
-        private string _displayName;
-        private string _displayAbbreviation;
+        public Unit UsePluralFormat(string format)
+        {
+            _pluralFormat = format;
+            return this;
+        }
 
-        private readonly List<string> _aliases;
-        public IEnumerable<string> Aliases { get { return _aliases.AsEnumerable(); } }
-
-        private readonly List<string> _abbreviations;
-        public IEnumerable<string> Abbreviations { get { return _abbreviations.AsEnumerable(); } }
+        public Unit PluralizeAs(string plural)
+        {
+            _explicitPlural = plural;
+            return this;
+        }
 
         public override string ToString()
         {
@@ -70,6 +91,21 @@ namespace Convertinator
             if(_abbreviations.Count > 0)
             {
                 return string.Format("{0}", _abbreviations[0]);
+            }
+
+            return ToString();
+        }
+
+        public string ToPluralString()
+        {
+            if(!string.IsNullOrEmpty(_explicitPlural))
+            {
+                return _explicitPlural;
+            }
+
+            if(!string.IsNullOrEmpty(_pluralFormat))
+            {
+                return string.Format(_pluralFormat, ToString());
             }
 
             return ToString();

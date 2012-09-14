@@ -48,5 +48,37 @@ namespace Convertinator.Tests
 
             meter.ToAbbreviatedString().Should().Be("mtr");
         }
+
+        [Test]
+        public void UseExplicitPlural()
+        {
+            var unit = new Unit("foot").PluralizeAs("feet");
+
+            unit.ToPluralString().Should().Be("feet");
+        }
+
+        [Test]
+        public void PluralizingWithNoSpecifiedPluralUsesDefaultName()
+        {
+            var unit = new Unit("foot");
+
+            unit.ToPluralString().Should().Be("foot");
+        }
+
+        [Test]
+        public void UsePluralFormat()
+        {
+            var unit = new Unit("meter").UsePluralFormat("{0}s");
+
+            unit.ToPluralString().Should().Be("meters");
+        }
+
+        [Test]
+        public void PluralFormatUseExplicitDisplayStringIfSet()
+        {
+            var unit = new Unit("meter").UsePluralFormat("{0}s").DisplayWithName("metre");
+
+            unit.ToPluralString().Should().Be("metres");
+        }
     }
 }
