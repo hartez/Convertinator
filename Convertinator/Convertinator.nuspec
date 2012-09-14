@@ -4,12 +4,14 @@
     <id>$id$</id>
     <version>$version$</version>
     <title>$title$</title>
-    <authors>$author$</authors>
-    <owners>$author$</owners>
+    <authors>E.Z. Hart, $author$</authors>
+    <owners>E.Z. Hart, $author$</owners>
+    <licenseUrl>https://github.com/hartez/Convertinator/blob/master/license.txt</licenseUrl>
+    <projectUrl>https://github.com/hartez/Convertinator</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>Initial package release</releaseNotes>
-    <copyright>Copyright 2012</copyright>
+    <copyright>Copyright 2012 E.Z. Hart and Traceur LLC</copyright>
     <tags>measurement unit conversion</tags>
 	<dependencies>
 	  <dependency id="QuickGraph" version="3.6.61119.7" />
