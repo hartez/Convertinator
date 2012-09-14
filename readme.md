@@ -70,4 +70,4 @@ The underlying graph and pathfinding in Convertinator are supplied by the excell
 You can grab the latest version from [nuget](https://nuget.org/packages/Convertinator/0.0.1.0 "nuget")
 
 ## License ##
-[MIT License](https://github.com/hartez/Convertinator/blob/master/license.txt "MIT License")
+[MIT License](https://raw.github.com/hartez/Convertinator/master/license.txt "MIT License")
