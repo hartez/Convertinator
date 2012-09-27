@@ -70,6 +70,7 @@
     <Compile Include="GraphTests.cs" />
     <Compile Include="MeasurementOutputTests.cs" />
     <Compile Include="ReadmeExamples.cs" />
+    <Compile Include="SystemConversionTests.cs" />
     <Compile Include="UnitOutputTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TemperatureTests.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using QuickGraph;
 using QuickGraph.Algorithms;
+using QuickGraph.Algorithms.Search;
 
 namespace Convertinator
 {
@@ -88,28 +89,115 @@ namespace Convertinator
                 return source.Value;
             }
 
+            var path = ComputeShortestPath(start, end);
+
+            if (path != null)
+            {
+                return WalkConversionPath(source, path);
+            }
+
+            throw new ConversionNotFoundException(string.Format("No conversion between {0} and {1} has been configured", source.Unit, target));
+        }
+
+        private decimal WalkConversionPath(Measurement source, IEnumerable<Conversion> path)
+        {
+            // Aggregate all of the steps in each conversion
+            var steps = new List<IConversionStep>();
+            foreach (var conversion in path)
+            {
+                steps.AddRange(conversion.Steps);
+            }
+
+            var result = steps.Aggregate(source.Value, (current, step) => step.Apply(current));
+
+            return Math.Round(result, _decimalPlaces, _roundingMode);
+        }
+
+        private IEnumerable<Conversion> ComputeShortestPath(Unit start, Unit end)
+        {
             // Find a path from the source to the target
             Func<Conversion, double> edgeCost = e => 1;
 
             TryFunc<Unit, IEnumerable<Conversion>> tryGetPaths = this.ShortestPathsDijkstra(edgeCost, start);
-            
+
             IEnumerable<Conversion> path;
 
-            if (tryGetPaths(end, out path))
+            return tryGetPaths(end, out path) ? path : null;
+        }
+
+        private IEnumerable<Conversion> ComputeShortestPathFromCandidates(Unit start, IEnumerable<Unit> candidates)
+        {
+            IEnumerable<Conversion> currentShortest = null;
+            
+            foreach(var candidate in candidates)
             {
-                // Aggregate all of the steps in each conversion
-                var steps = new List<IConversionStep>();
-                foreach (var conversion in path)
+                var candidateConversionPath = ComputeShortestPath(start, candidate);
+
+                if(candidateConversionPath == null)
                 {
-                    steps.AddRange(conversion.Steps);
+                    continue;
                 }
 
-                var result = steps.Aggregate(source.Value, (current, step) => step.Apply(current));
+                if(currentShortest == null)
+                {
+                    currentShortest = candidateConversionPath;
+                    continue;
+                }
 
-                return Math.Round(result, _decimalPlaces, _roundingMode);
+                if(candidateConversionPath.Count() < currentShortest.Count())
+                {
+                    currentShortest = candidateConversionPath;
+                }
             }
 
-            throw new ConversionNotFoundException(string.Format("No conversion between {0} and {1} has been configured", source.Unit, target));
+            return currentShortest;
+        }
+
+        private Unit FindCounterpartInSystem(Unit source, string system)
+        {
+            return source.Counterparts.FirstOrDefault(c => c.System == system);
+        }
+
+        public Measurement ConvertSystem(Measurement source, string system)
+        {
+            var sourceUnit = FindVertex(source);
+
+            // If the source measurement is already in the specified system, just return it
+            if (sourceUnit.System == system)
+            {
+                return source;
+            }
+
+            // If the source measurement has an explicitly designated counterpart
+            // in the target system, convert to that counterpart
+            var dest = FindCounterpartInSystem(sourceUnit, system);
+
+            if(dest != null)
+            {
+                return new Measurement(dest, Convert(source, dest));
+            }
+
+            // See if we can find any units for the target system and, if so, whether there's a path 
+            // to convert to any of them. If so, use the shortest one (implied counterpart)
+            var candidates = new List<Unit>();
+            var search = new DepthFirstSearchAlgorithm<Unit, Conversion>(this);
+            search.DiscoverVertex += vertex =>
+                                            {
+                                                if(vertex.System == system)
+                                                {
+                                                    candidates.Add(vertex);
+                                                }
+                                            };                                       
+            search.Compute(sourceUnit);
+
+            var path = ComputeShortestPathFromCandidates(sourceUnit, candidates);
+
+            if (path != null)
+            {
+                return new Measurement(path.Last().Target, WalkConversionPath(source, path));
+            }
+
+            throw new ConversionNotFoundException(string.Format("The specified measurement unit {0} doesn't have an explicit counterpart in the target system {1} and a path to the target system {1} could not be found.", source.Unit, system));
         }
     }
 }

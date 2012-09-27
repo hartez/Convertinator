@@ -12,7 +12,8 @@
                 {
                     return new Unit("meter")
                         .IsAlsoCalled("metre")
-                        .CanBeAbbreviated("m");
+                        .CanBeAbbreviated("m")
+                        .SystemIs("metric");
                 }
             }
 
@@ -22,7 +23,7 @@
                 {
                     return new Unit("kilometer")
                         .IsAlsoCalled("kilometre")
-                        .CanBeAbbreviated("km");
+                        .CanBeAbbreviated("km").SystemIs("metric");
                 }
             }
         }

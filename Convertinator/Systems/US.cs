@@ -11,13 +11,13 @@
                 get
                 {
                     return new Unit("mile")
-                        .CanBeAbbreviated("mi");
+                        .CanBeAbbreviated("mi").SystemIs("US");
                 }
             }
 
             public static Unit Foot
             {
-                get { return new Unit("foot").CanBeAbbreviated("ft", "'"); }
+                get { return new Unit("foot").CanBeAbbreviated("ft", "'").SystemIs("US"); }
             }
         }
 

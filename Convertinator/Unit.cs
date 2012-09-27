@@ -12,15 +12,20 @@ namespace Convertinator
         private string _pluralFormat;
         private string _explicitPlural;
 
+        private readonly List<Unit> _counterparts; 
+        
         public Unit(string name)
         {
             Name = name;
             _displayName = name;
             _aliases = new List<string>();
             _abbreviations = new List<string>();
+            _counterparts = new List<Unit>();
         }
 
         public string Name { get; set; }
+
+        public string System { get; set; }
 
         public IEnumerable<string> Aliases
         {
@@ -30,6 +35,11 @@ namespace Convertinator
         public IEnumerable<string> Abbreviations
         {
             get { return _abbreviations.AsEnumerable(); }
+        }
+
+        public IEnumerable<Unit> Counterparts
+        {
+            get { return _counterparts; }
         }
 
         public Unit CanBeAbbreviated(string abbreviation, params string[] otherAbbreviations)
@@ -73,6 +83,12 @@ namespace Convertinator
         public Unit PluralizeAs(string plural)
         {
             _explicitPlural = plural;
+            return this;
+        }
+
+        public Unit HasCounterPart(Unit unit)
+        {
+            _counterparts.Add(unit);
             return this;
         }
 
@@ -134,6 +150,12 @@ namespace Convertinator
             }
 
             return _aliases.Concat(_abbreviations).Contains(name);
+        }
+
+        public Unit SystemIs(string system)
+        {
+            System = system;
+            return this;
         }
     }
 }
