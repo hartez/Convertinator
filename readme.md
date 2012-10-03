@@ -58,6 +58,45 @@ If pluralizations are specified, they're automatic. For output, you can specify 
 	Assert.That(system.Convert(feetMeasurement, "mtr") == 0.6096M);
 	Assert.That(system.Convert(feetMeasurement, "m") == 0.6096M);
 
+## Systems ##
+
+Convertinator lets you tag a unit with a system name (e.g., "US", "metric", "imperial", etc.). Once units are tagged with system names, you can convert a value to a destination system (instead of a specific unit). This lets you handle the situation where you don't really care what unit you get, as long as it's in the preferred system.
+
+For example:
+
+	var graph = new ConversionGraph();
+	
+	var meter = new Unit("meter").SystemIs("metric");
+	var mile = new Unit("mile").SystemIs("US");
+	var feet = new Unit("foot").SystemIs("US");
+	var kilometer = new Unit("kilometer").SystemIs("metric").HasCounterPart(mile);
+	
+	graph.AddConversion(Conversions.One(meter).In(feet).Is(3.28084M));
+	graph.AddConversion(Conversions.One(kilometer).In(meter).Is(1000M));
+	graph.AddConversion(Conversions.One(mile).In(feet).Is(5280M));
+
+With this graph configured, you can now do things like this:
+
+	var result = graph.ConvertSystem(new Measurement("meter", 1M), "US");
+
+    result.Value.Should().Be(3.2808M);
+    result.Unit.Name.Should().Be("foot");
+
+Convertinator started with "meter" and found the shortest path to another unit tagged with the system "US". 
+
+But what about "natural" conversions? When most people think of converting meters to US units, they assume a conversion to feet. But when converting kilometers to US units, they usually assume a conversion to miles. 
+
+That's where explicit counterparts come in. Notice that when we specified 'kilometer' above, we also specified 'mile' as its counterpart. If Convertinator can find a path to an explicit counterpart, it will use that conversion. So this works:
+
+	var result = graph.ConvertSystem(new Measurement("kilometer", 1M), "US");
+	
+	result.Value.Should().Be(0.6214M);
+	result.Unit.Name.Should().Be("mile");
+
+## Other Stuff ##
+
+Check out the unit tests for examples of other stuff, like [currency conversion](https://github.com/hartez/Convertinator/blob/master/Convertinator.Tests/Currencies.cs) and multi-step conversions (like [temperatures](https://github.com/hartez/Convertinator/blob/master/Convertinator.Tests/TemperatureTests.cs)).
+
 ## Presets ##
 
 It's cumbersome to have to define systems from the ground-up every time, so a few preset systems are included (`Length()`, `Volume()`, and `Time()` under `DefaultConfigurations`); those will continue to be fleshed out and expanded in future releases.
