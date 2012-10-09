@@ -1,12 +1,31 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using QuickGraph;
 using QuickGraph.Algorithms;
 using QuickGraph.Algorithms.Search;
+using QuickGraph.Graphviz;
+using QuickGraph.Graphviz.Dot;
 
 namespace Convertinator
 {
+    public sealed class FileDotEngine : IDotEngine
+    {
+        public string Run(GraphvizImageType imageType, string dot, string outputFileName)
+        {
+            string output = outputFileName;
+            if(!output.EndsWith(".dot"))
+            {
+                output += ".dot";
+            }
+
+            File.WriteAllText(output, dot);
+            return output;
+        }
+    }
+
     public class ConversionGraph : BidirectionalGraph<Unit, Conversion>
     {
         private int _decimalPlaces = 4;
@@ -199,5 +218,50 @@ namespace Convertinator
 
             throw new ConversionNotFoundException(string.Format("The specified measurement unit {0} doesn't have an explicit counterpart in the target system {1} and a path to the target system {1} could not be found.", source.Unit, system));
         }
+
+        public void ToDotFile(string path, VisualizationOptions options)
+        {
+            var graphviz = new GraphvizAlgorithm<Unit, Conversion>(this);
+
+            graphviz.GraphFormat.RankDirection = GraphvizRankDirection.LR;
+
+            graphviz.FormatVertex += (sender, args) => args.VertexFormatter.Label = args.Vertex.Name;
+
+            var edgeIndex = 0;
+
+            graphviz.FormatEdge +=
+                (sender, args) =>
+                    {
+                        string label = String.Empty;
+
+                        if(options == (options | VisualizationOptions.NumberEdges))
+                        {
+                            edgeIndex += 1;
+                            label = edgeIndex.ToString(CultureInfo.InvariantCulture);
+                        }
+
+                        if(options == (options | VisualizationOptions.ShowFullConversionDescriptions))
+                        {
+                            label += 
+                                args.Edge.Steps.Aggregate(String.Empty,
+                                                      (output, step) =>
+                                                      (String.IsNullOrEmpty(output.Trim()) ? String.Empty : " ") + 
+                                                      output + step.ToString() +
+                                                      (String.IsNullOrEmpty(output.Trim()) ? String.Empty : ", "));
+                        }
+                        
+                        args.EdgeFormatter.Label.Value = label;
+                    };
+
+            graphviz.Generate(new FileDotEngine(), path);
+        }
+    }
+
+    [Flags]
+    public enum VisualizationOptions
+    {
+        None,
+        ShowFullConversionDescriptions,
+        NumberEdges
     }
 }

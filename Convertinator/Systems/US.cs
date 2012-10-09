@@ -17,7 +17,12 @@
 
             public static Unit Foot
             {
-                get { return new Unit("foot").CanBeAbbreviated("ft", "'").SystemIs("US"); }
+                get { return new Unit("foot").CanBeAbbreviated("ft", "'").SystemIs("US").PluralizeAs("feet"); }
+            }
+
+            public static Unit Inch
+            {
+                get { return new Unit("inch").CanBeAbbreviated("in", "\"").SystemIs("US").PluralizeAs("inches"); }
             }
         }
 

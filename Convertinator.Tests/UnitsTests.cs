@@ -1,22 +1,26 @@
+using Convertinator.Systems;
 using FluentAssertions;
 using NUnit.Framework;
-using Convertinator.Systems;
 
 namespace Convertinator.Tests
 {
     [TestFixture]
     public class UnitsTests
     {
-        private Unit _celcius;
+        #region Setup/Teardown
 
         [SetUp]
         public void Setup()
         {
-            _celcius = 
-            SI.Temperature.Celcius
-                .CanBeAbbreviated("C", "°C")
-                .IsAlsoCalled("centigrade", "celcius", "Centigrade", " C");
+            _celcius =
+                SI.Temperature.Celcius
+                    .CanBeAbbreviated("C", "°C")
+                    .IsAlsoCalled("centigrade", "celcius", "Centigrade", " C");
         }
+
+        #endregion
+
+        private Unit _celcius;
 
         [Test]
         public void CelciusMatchesAlternates()
@@ -34,10 +38,10 @@ namespace Convertinator.Tests
         [Test]
         public void PluralsMatch()
         {
-            var meter = new Unit("meter")
+            Unit meter = new Unit("meter")
                 .UsePluralFormat("{0}s");
 
-            var foot = new Unit("foot")
+            Unit foot = new Unit("foot")
                 .PluralizeAs("feet");
 
             meter.Matches("meters").Should().BeTrue();

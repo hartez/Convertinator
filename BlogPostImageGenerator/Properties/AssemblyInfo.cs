@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Convertinator")]
-[assembly: AssemblyDescription("A library for configuring and computing measurement conversions")]
+[assembly: AssemblyTitle("BlogPostImageGenerator")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Traceur LLC")]
-[assembly: AssemblyProduct("Convertinator")]
-[assembly: AssemblyCopyright("Copyright © 2012 E.Z. Hart and Traceur LLC")]
+[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyProduct("BlogPostImageGenerator")]
+[assembly: AssemblyCopyright("Copyright © Microsoft 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,17 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("4d0e07c5-2f6b-4386-93a9-dcf0cff6c0c9")]
+[assembly: Guid("50d65c6c-a0c8-4bee-9c96-e63d6ce7494d")]
 
-[assembly: AssemblyVersion("0.3.0")]
-[assembly: AssemblyFileVersion("0.3.0")]
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Build and Revision Numbers 
+// by using the '*' as shown below:
+// [assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
