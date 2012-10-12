@@ -59,6 +59,7 @@
     <Compile Include="ConversionNotFoundException.cs" />
     <Compile Include="Conversions.cs" />
     <Compile Include="DefaultConfigurations.cs" />
+    <Compile Include="FileDotEngine.cs" />
     <Compile Include="IConversionStep.cs" />
     <Compile Include="Measurement.cs" />
     <Compile Include="OffsetConversion.cs" />

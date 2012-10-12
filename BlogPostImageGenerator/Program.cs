@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using Convertinator;
+using Convertinator.Systems;
 
 namespace BlogPostImageGenerator
 {
@@ -38,7 +39,7 @@ namespace BlogPostImageGenerator
             Process.Start(@"C:\Program Files (x86)\Graphviz 2.28\bin\dot.exe",
                           "-Tpng more_complex.dot -o more_complex.png");
 
-            DefaultConfigurations.Length().ToDotFile("length.dot", VisualizationOptions.NumberEdges);
+            DefaultConfigurations.Length().ToDotFile("length.dot", VisualizationOptions.NumberEdges | VisualizationOptions.ShowSystem);
 
             Process.Start(@"C:\Program Files (x86)\Graphviz 2.28\bin\dot.exe",
                           "-Tpng length.dot -o length.png");

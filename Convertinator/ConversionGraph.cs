@@ -209,7 +209,19 @@ namespace Convertinator
 
             graphviz.GraphFormat.RankDirection = GraphvizRankDirection.LR;
 
-            graphviz.FormatVertex += (sender, args) => args.VertexFormatter.Label = args.Vertex.Name;
+            graphviz.FormatVertex += (sender, args) =>
+                                         {
+                                             var label = args.Vertex.Name;
+
+                                             if (options == (options | VisualizationOptions.ShowSystem))
+                                             {
+                                                 if(!String.IsNullOrEmpty(args.Vertex.System))
+                                                 {
+                                                     label += string.Format(" [{0}]", args.Vertex.System);
+                                                 }
+                                             }
+                                             args.VertexFormatter.Label = label;
+                                         };
 
             var edgeIndex = 0;
 
@@ -245,7 +257,8 @@ namespace Convertinator
     public enum VisualizationOptions
     {
         None,
-        ShowFullConversionDescriptions,
-        NumberEdges
+        ShowFullConversionDescriptions = 2,
+        NumberEdges = 4,
+        ShowSystem = 8  
     }
 }
