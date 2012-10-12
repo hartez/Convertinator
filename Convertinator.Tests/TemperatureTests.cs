@@ -37,7 +37,7 @@ namespace Convertinator.Tests
         [Test]
         public void ThirtyTwoDegreesFahrenheitInCelcius()
         {
-            var degrees = new Measurement(new Unit("Fahrenheit"), 32M);
+            var degrees = new Measurement("Fahrenheit", 32M);
 
             var result = _graph.Convert(degrees, "Celcius");
 
@@ -72,6 +72,16 @@ namespace Convertinator.Tests
             var result = _graph.Convert(degrees, new Unit("Fahrenheit"));
 
             result.Should().Be(212M);
+        }
+
+        [Test]
+        public void BoilingFahrenheitToCelcius()
+        {
+            var degrees = new Measurement("Fahrenheit", 212M);
+
+            var result = _graph.Convert(degrees, "Celcius");
+
+            result.Should().Be(100M);
         }
 
         [Test]

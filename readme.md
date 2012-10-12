@@ -106,7 +106,7 @@ It's cumbersome to have to define systems from the ground-up every time, so a fe
 The underlying graph and pathfinding in Convertinator are supplied by the excellent [Quickgraph](http://quickgraph.codeplex.com/ "QuickGraph") library.
 
 ## Installation ##
-You can grab the latest version from [nuget](https://nuget.org/packages/Convertinator/0.0.1.0 "nuget")
+You can grab the latest version from [nuget](https://nuget.org/packages/Convertinator "nuget")
 
 ## License ##
 [MIT License](https://raw.github.com/hartez/Convertinator/master/license.txt "MIT License")
