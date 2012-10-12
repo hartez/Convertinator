@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using QuickGraph;
 using QuickGraph.Algorithms;
@@ -11,21 +10,6 @@ using QuickGraph.Graphviz.Dot;
 
 namespace Convertinator
 {
-    public sealed class FileDotEngine : IDotEngine
-    {
-        public string Run(GraphvizImageType imageType, string dot, string outputFileName)
-        {
-            string output = outputFileName;
-            if(!output.EndsWith(".dot"))
-            {
-                output += ".dot";
-            }
-
-            File.WriteAllText(output, dot);
-            return output;
-        }
-    }
-
     public class ConversionGraph : BidirectionalGraph<Unit, Conversion>
     {
         private int _decimalPlaces = 4;
