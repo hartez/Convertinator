@@ -30,6 +30,15 @@ namespace Convertinator.Tests
         }
 
         [Test]
+        public void SameSystem()
+        {
+            var result = _graph.ConvertSystem(new Measurement("meter", 1M), "metric");
+
+            result.Value.Should().Be(1M);
+            result.Unit.Name.Should().Be("meter");
+        }
+
+        [Test]
         public void ImpliedCounterpartInAlternateSystem()
         {
             var result = _graph.ConvertSystem(new Measurement("meter", 1M), "US");
