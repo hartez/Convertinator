@@ -89,6 +89,13 @@ namespace Convertinator
         public Unit HasCounterPart(Unit unit)
         {
             _counterparts.Add(unit);
+
+            // Add the reverse counterpart as well
+            if (!unit.Counterparts.Contains(this))
+            {
+                unit.HasCounterPart(this);
+            }
+
             return this;
         }
 

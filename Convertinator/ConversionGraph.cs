@@ -177,7 +177,15 @@ namespace Convertinator
 
             if(dest != null)
             {
-                return new Measurement(dest, Convert(source, dest));
+                try
+                {
+                    return new Measurement(dest, Convert(source, dest));
+                }
+                catch(ConversionNotFoundException exception)
+                {
+                    throw new ConversionNotFoundException(
+                        string.Format("Source unit {0} has a counterpart {1} defined in the target system, but a couversion could not be made between the units", source.Unit, dest), exception);
+                }
             }
 
             // See if we can find any units for the target system and, if so, whether there's a path 
