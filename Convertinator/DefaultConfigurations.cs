@@ -13,8 +13,29 @@ namespace Convertinator
             var feet = US.Length.Foot;
             var miles = US.Length.Mile;
             var inches = US.Length.Inch;
+            var decimeters = SI.Length.Decimeter;
+            var centimeters = SI.Length.Centimeter;
+            var millimeters = SI.Length.Millimeter;
+            var micrometers = SI.Length.Micrometer;
+            var nanometers = SI.Length.Nanometer;
+            var picometers = SI.Length.Picometer;
+            var femtometers = SI.Length.Femtometer;
+            var attometers = SI.Length.Attometer;
+            var zeptometers = SI.Length.Zeptometer;
+            var yoctometers = SI.Length.Yoctometer;
 
             graph.AddConversion(
+                Conversions.From(meters).To(decimeters).MultiplyBy(10M),
+                Conversions.From(decimeters).To(centimeters).MultiplyBy(10M),
+                Conversions.From(centimeters).To(millimeters).MultiplyBy(10M),
+                Conversions.From(millimeters).To(micrometers).MultiplyBy(1000M),
+                Conversions.From(micrometers).To(nanometers).MultiplyBy(1000M),
+                Conversions.From(nanometers).To(picometers).MultiplyBy(1000M),
+                Conversions.From(picometers).To(femtometers).MultiplyBy(1000M),
+                Conversions.From(femtometers).To(attometers).MultiplyBy(1000M),
+                Conversions.From(attometers).To(zeptometers).MultiplyBy(1000M),
+                Conversions.From(zeptometers).To(yoctometers).MultiplyBy(1000M),
+
                 Conversions.From(meters).To(kilometers).DivideBy(1000M),
                 Conversions.From(meters).To(feet).MultiplyBy(3.28084M),
                 Conversions.From(feet).To(miles).DivideBy(0.000189394M),

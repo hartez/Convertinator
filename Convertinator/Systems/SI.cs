@@ -2,30 +2,73 @@
 {
     public static class SI
     {
+        const string Metric = "metric";
+
         #region Nested type: Length
 
         public static class Length
         {
-            public static Unit Meter
-            {
-                get
-                {
-                    return new Unit("meter")
-                        .IsAlsoCalled("metre")
-                        .CanBeAbbreviated("m")
-                        .SystemIs("metric");
-                }
-            }
-
             public static Unit Kilometer
             {
-                get
-                {
-                    return new Unit("kilometer")
-                        .IsAlsoCalled("kilometre")
-                        .CanBeAbbreviated("km").SystemIs("metric");
-                }
+                get { return new Unit("kilometer").IsAlsoCalled("kilometre").CanBeAbbreviated("km").SystemIs(Metric); }
             }
+
+            public static Unit Meter
+            {
+                get { return new Unit("meter").IsAlsoCalled("metre").CanBeAbbreviated("m").SystemIs(Metric); }
+            }
+
+            public static Unit Decimeter
+            {
+                get { return new Unit("decimeter").IsAlsoCalled("decimetre").CanBeAbbreviated("dm").SystemIs(Metric); }
+            }
+
+            public static Unit Centimeter
+            {
+                get { return new Unit("centimeter").IsAlsoCalled("centimetre").CanBeAbbreviated("cm").SystemIs(Metric); }
+            }
+
+            public static Unit Millimeter
+            {
+                get { return new Unit("millimeter").IsAlsoCalled("millimetre").CanBeAbbreviated("mm").SystemIs(Metric); }
+            }
+
+            public static Unit Micrometer
+            {
+                get { return new Unit("micrometer").IsAlsoCalled("micrometre").CanBeAbbreviated("μ").SystemIs(Metric); }
+            }
+
+            public static Unit Nanometer
+            {
+                get { return new Unit("nanometer").IsAlsoCalled("nanometre").CanBeAbbreviated("n").SystemIs(Metric); }
+            }
+
+            public static Unit Picometer
+            {
+                get { return new Unit("picometer").IsAlsoCalled("picometre").CanBeAbbreviated("p").SystemIs(Metric); }
+            }
+
+            public static Unit Femtometer
+            {
+                get { return new Unit("femtometer").IsAlsoCalled("femtometre").CanBeAbbreviated("f").SystemIs(Metric); }
+            }
+
+            public static Unit Attometer
+            {
+                get { return new Unit("attometer").IsAlsoCalled("attometre").CanBeAbbreviated("a").SystemIs(Metric); }
+            }
+
+            public static Unit Zeptometer
+            {
+                get { return new Unit("zeptometer").IsAlsoCalled("zeptometre").CanBeAbbreviated("z").SystemIs(Metric); }
+            }
+
+            public static Unit Yoctometer
+            {
+                get { return new Unit("yoctometer").IsAlsoCalled("yoctometre").CanBeAbbreviated("y").SystemIs(Metric); }
+            }
+
+            // micro, nano, pico, femto, atto, zepto, yocto
         }
 
         #endregion

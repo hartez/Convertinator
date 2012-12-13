@@ -1,3 +1,4 @@
+using System;
 using Convertinator.Systems;
 using FluentAssertions;
 using NUnit.Framework;
@@ -13,6 +14,32 @@ namespace Convertinator.Tests.DefaultConfigurations
         public void SetUp()
         {
             _length = Convertinator.DefaultConfigurations.Length();
+        }
+
+        [Test]
+        public void OneMeterInYoctometers()
+        {
+            var oneMeter = new Measurement(SI.Length.Meter, 1M);
+
+            var result = _length.Convert(oneMeter, SI.Length.Yoctometer);
+
+            var target = Convert.ToDecimal(Math.Pow(10, 24));
+
+            result.Should().Be(target);
+        }
+
+        [Test]
+        public void OneYoctometerInMeters()
+        {
+            _length.RoundToDecimalPlaces(25);
+
+            var oneYocto = new Measurement(SI.Length.Yoctometer, 1M);
+
+            var result = _length.Convert(oneYocto, SI.Length.Meter);
+
+            var target = Convert.ToDecimal(Math.Pow(10, -24));
+
+            result.Should().Be(target);
         }
 
         [Test]
