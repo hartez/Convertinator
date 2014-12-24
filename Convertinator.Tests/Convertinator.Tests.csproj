@@ -71,6 +71,7 @@
     <Compile Include="GraphTests.cs" />
     <Compile Include="MeasurementOutputTests.cs" />
     <Compile Include="Currencies.cs" />
+    <Compile Include="Performance.cs" />
     <Compile Include="ReadmeExamples.cs" />
     <Compile Include="SystemConversionTests.cs" />
     <Compile Include="UnitOutputTests.cs" />
