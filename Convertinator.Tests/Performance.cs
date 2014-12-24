@@ -8,12 +8,12 @@ namespace Convertinator.Tests
     [TestFixture, Explicit]
     public class Performance
     {
-        private ConversionGraph _graph;
+        private ConversionGraph<double> _graph;
 
         [SetUp]
         public void Setup()
         {
-            _graph = new ConversionGraph();
+            _graph = new ConversionGraph<double>();
 
             var meter = SI.Length.Meter;
             var mile = US.Length.Mile;
@@ -27,11 +27,11 @@ namespace Convertinator.Tests
             var picometer = new Unit("picometer").SystemIs("metric");
             nanofoot.HasCounterPart(nanometer);
 
-            _graph.AddConversion(Conversions.One(meter).In(feet).Is(3.28084M));
-            _graph.AddConversion(Conversions.One(kilometer).In(meter).Is(1000M));
-            _graph.AddConversion(Conversions.One(mile).In(feet).Is(5280M));
-            _graph.AddConversion(Conversions.From(feet).To(nanofoot).MultiplyBy(0.000000001M));
-            _graph.AddConversion(Conversions.From(picometer).To(nanometer).MultiplyBy(0.001M));
+            _graph.AddConversion(Conversions.One<double>(meter).In(feet).Is(3.28084d));
+            _graph.AddConversion(Conversions.One<double>(kilometer).In(meter).Is(1000d));
+            _graph.AddConversion(Conversions.One<double>(mile).In(feet).Is(5280d));
+            _graph.AddConversion(Conversions.From<double>(feet).To(nanofoot).MultiplyBy(0.000000001d));
+            _graph.AddConversion(Conversions.From<double>(picometer).To(nanometer).MultiplyBy(0.001d));
             _graph
                 .RoundUsing(MidpointRounding.AwayFromZero)
                 .RoundToDecimalPlaces(4);
@@ -47,10 +47,10 @@ namespace Convertinator.Tests
 
             for(var n = 0; n < loops; n++)
             {
-                _graph.ConvertSystem(new Measurement("meter", 1M), "metric");
-                _graph.ConvertSystem(new Measurement("meter", 1M), "US");
-                _graph.ConvertSystem(new Measurement("kilometer", 1M), "US");
-                _graph.ConvertSystem(new Measurement("mile", 0.6214M), "metric");
+                _graph.ConvertSystem(new Measurement<double>("meter", 1d), "metric");
+                _graph.ConvertSystem(new Measurement<double>("meter", 1d), "US");
+                _graph.ConvertSystem(new Measurement<double>("kilometer", 1d), "US");
+                _graph.ConvertSystem(new Measurement<double>("mile", 0.6214d), "metric");
             }
 
             stopWatch.Stop();

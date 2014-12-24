@@ -10,24 +10,24 @@ using QuickGraph.Graphviz.Dot;
 
 namespace Convertinator
 {
-    public class ConversionGraph : BidirectionalGraph<Unit, Conversion>
+    public class ConversionGraph<T> : BidirectionalGraph<Unit, Conversion<T>>
     {
         private int _decimalPlaces = 4;
         private MidpointRounding _roundingMode;
 
-        public ConversionGraph RoundToDecimalPlaces(int decimalPlaces)
+        public ConversionGraph<T> RoundToDecimalPlaces(int decimalPlaces)
         {
             _decimalPlaces = decimalPlaces;
             return this;
         }
 
-        public ConversionGraph RoundUsing(MidpointRounding roundingMode)
+        public ConversionGraph<T> RoundUsing(MidpointRounding roundingMode)
         {
             _roundingMode = roundingMode;
             return this;
         }
 
-        public void AddConversion(Conversion conversion, params Conversion[] moreConversions)
+        public void AddConversion(Conversion<T> conversion, params Conversion<T>[] moreConversions)
         {
             AddVerticesAndEdge(conversion);
             AddVerticesAndEdge(conversion.Reverse());
@@ -47,7 +47,7 @@ namespace Convertinator
             get { return Vertices; }
         }
 
-        public Unit FindVertex(Measurement measurement)
+        public Unit FindVertex(Measurement<T> measurement)
         {
             return FindVertex(measurement.Unit);
         }
@@ -62,12 +62,12 @@ namespace Convertinator
             return Vertices.FirstOrDefault(u => u.Matches(unit));
         }
 
-        public decimal Convert(Measurement source, string target)
+        public T Convert(Measurement<T> source, string target)
         {
             return Convert(source, new Unit(target));
         }
 
-        public decimal Convert(Measurement source, Unit target)
+        public T Convert(Measurement<T> source, Unit target)
         {
             // Find the vertex that matches the source
             var start = FindVertex(source);
@@ -102,10 +102,10 @@ namespace Convertinator
             throw new ConversionNotFoundException(string.Format("No conversion between {0} and {1} has been configured", source.Unit, target));
         }
 
-        private decimal WalkConversionPath(Measurement source, IEnumerable<Conversion> path)
+        private T WalkConversionPath(Measurement<T> source, IEnumerable<Conversion<T>> path)
         {
             // Aggregate all of the steps in each conversion
-            var steps = new List<IConversionStep>();
+            var steps = new List<IConversionStep<T>>();
             foreach (var conversion in path)
             {
                 steps.AddRange(conversion.Steps);
@@ -113,24 +113,24 @@ namespace Convertinator
 
             var result = steps.Aggregate(source.Value, (current, step) => step.Apply(current));
 
-            return Math.Round(result, _decimalPlaces, _roundingMode);
+            return Numeric<T>.Round(result, _decimalPlaces, _roundingMode);
         }
 
-        private IEnumerable<Conversion> ComputeShortestPath(Unit start, Unit end)
+        private IEnumerable<Conversion<T>> ComputeShortestPath(Unit start, Unit end)
         {
             // Find a path from the source to the target
-            Func<Conversion, double> edgeCost = e => 1;
+            Func<Conversion<T>, double> edgeCost = e => 1;
 
-            TryFunc<Unit, IEnumerable<Conversion>> tryGetPaths = this.ShortestPathsDijkstra(edgeCost, start);
+            TryFunc<Unit, IEnumerable<Conversion<T>>> tryGetPaths = this.ShortestPathsDijkstra(edgeCost, start);
 
-            IEnumerable<Conversion> path;
+            IEnumerable<Conversion<T>> path;
 
             return tryGetPaths(end, out path) ? path : null;
         }
 
-        private IEnumerable<Conversion> ComputeShortestPathFromCandidates(Unit start, IEnumerable<Unit> candidates)
+        private IEnumerable<Conversion<T>> ComputeShortestPathFromCandidates(Unit start, IEnumerable<Unit> candidates)
         {
-            IEnumerable<Conversion> currentShortest = null;
+            IEnumerable<Conversion<T>> currentShortest = null;
             
             foreach(var candidate in candidates)
             {
@@ -161,7 +161,7 @@ namespace Convertinator
             return source.Counterparts.FirstOrDefault(c => c.System == system);
         }
 
-        public Measurement ConvertSystem(Measurement source, string system)
+        public Measurement<T> ConvertSystem(Measurement<T> source, string system)
         {
             var sourceUnit = FindVertex(source);
 
@@ -179,7 +179,7 @@ namespace Convertinator
             {
                 try
                 {
-                    return new Measurement(dest, Convert(source, dest));
+                    return new Measurement<T>(dest, Convert(source, dest));
                 }
                 catch(ConversionNotFoundException exception)
                 {
@@ -191,7 +191,7 @@ namespace Convertinator
             // See if we can find any units for the target system and, if so, whether there's a path 
             // to convert to any of them. If so, use the shortest one (implied counterpart)
             var candidates = new List<Unit>();
-            var search = new DepthFirstSearchAlgorithm<Unit, Conversion>(this);
+            var search = new DepthFirstSearchAlgorithm<Unit, Conversion<T>>(this);
             search.DiscoverVertex += vertex =>
                                             {
                                                 if(vertex.System == system)
@@ -205,7 +205,7 @@ namespace Convertinator
 
             if (path != null)
             {
-                return new Measurement(path.Last().Target, WalkConversionPath(source, path));
+                return new Measurement<T>(path.Last().Target, WalkConversionPath(source, path));
             }
 
             throw new ConversionNotFoundException(string.Format("The specified measurement unit {0} doesn't have an explicit counterpart in the target system {1} and a path to the target system {1} could not be found.", source.Unit, system));
@@ -213,7 +213,7 @@ namespace Convertinator
 
         public void ToDotFile(string path, VisualizationOptions options)
         {
-            var graphviz = new GraphvizAlgorithm<Unit, Conversion>(this);
+            var graphviz = new GraphvizAlgorithm<Unit, Conversion<T>>(this);
 
             graphviz.GraphFormat.RankDirection = GraphvizRankDirection.LR;
 

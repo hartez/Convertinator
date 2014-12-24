@@ -4,16 +4,16 @@ using QuickGraph;
 
 namespace Convertinator
 {
-    public class Conversion : Edge<Unit>, IConversion
+    public class Conversion<T> : Edge<Unit>, IConversion<T>
     {
-        private readonly List<IConversionStep> _steps;
+        private readonly List<IConversionStep<T>> _steps;
 
-        public IEnumerable<IConversionStep> Steps
+        public IEnumerable<IConversionStep<T>> Steps
         {
             get { return _steps.AsEnumerable(); }
         }
 
-        public void AddStep(IConversionStep step)
+        public void AddStep(IConversionStep<T> step)
         {
             _steps.Add(step);
         }
@@ -21,12 +21,12 @@ namespace Convertinator
         public Conversion(Unit source, Unit target)
             : base(source, target)
         {
-            _steps = new List<IConversionStep>();
+            _steps = new List<IConversionStep<T>>();
         }
 
-        public Conversion Reverse()
+        public Conversion<T> Reverse()
         {
-            var reverse = new Conversion(Target, Source);
+            var reverse = new Conversion<T>(Target, Source);
 
             foreach(var conversionStep in Steps.Reverse())
             {
@@ -37,10 +37,10 @@ namespace Convertinator
         }
     }
 
-    public interface IConversion
+    public interface IConversion<T>
     {
-        IEnumerable<IConversionStep> Steps { get; }
-        void AddStep(IConversionStep step);
-        Conversion Reverse();
+        IEnumerable<IConversionStep<T>> Steps { get; }
+        void AddStep(IConversionStep<T> step);
+        Conversion<T>  Reverse();
     }
 }

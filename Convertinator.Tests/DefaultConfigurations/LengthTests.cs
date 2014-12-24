@@ -8,7 +8,7 @@ namespace Convertinator.Tests.DefaultConfigurations
     [TestFixture]
     public class LengthTests
     {
-        private ConversionGraph _length;
+        private ConversionGraph<decimal> _length;
 
         [SetUp]
         public void SetUp()
@@ -19,7 +19,7 @@ namespace Convertinator.Tests.DefaultConfigurations
         [Test]
         public void OneMeterInYoctometers()
         {
-            var oneMeter = new Measurement(SI.Length.Meter, 1M);
+            var oneMeter = new Measurement<decimal>(SI.Length.Meter, 1M);
 
             var result = _length.Convert(oneMeter, SI.Length.Yoctometer);
 
@@ -33,7 +33,7 @@ namespace Convertinator.Tests.DefaultConfigurations
         {
             _length.RoundToDecimalPlaces(25);
 
-            var oneYocto = new Measurement(SI.Length.Yoctometer, 1M);
+            var oneYocto = new Measurement<decimal>(SI.Length.Yoctometer, 1M);
 
             var result = _length.Convert(oneYocto, SI.Length.Meter);
 
@@ -45,7 +45,7 @@ namespace Convertinator.Tests.DefaultConfigurations
         [Test]
         public void ConvertOneFootToMeters()
         {
-            var oneFoot = new Measurement(US.Length.Foot, 1M);
+            var oneFoot = new Measurement<decimal>(US.Length.Foot, 1M);
 
             decimal meters = _length.Convert(oneFoot, SI.Length.Meter);
 
@@ -55,7 +55,7 @@ namespace Convertinator.Tests.DefaultConfigurations
         [Test]
         public void ConvertOneMeterToFeet()
         {
-            var oneMeter = new Measurement(SI.Length.Meter, 1M);
+            var oneMeter = new Measurement<decimal>(SI.Length.Meter, 1M);
 
             decimal feet = _length.Convert(oneMeter, US.Length.Foot);
 
@@ -65,7 +65,7 @@ namespace Convertinator.Tests.DefaultConfigurations
         [Test]
         public void ConvertOneKilometerToFeet()
         {
-            var oneKilometer = new Measurement(SI.Length.Kilometer, 1M);
+            var oneKilometer = new Measurement<decimal>(SI.Length.Kilometer, 1M);
 
             decimal feet = _length.Convert(oneKilometer, US.Length.Foot);
 
@@ -75,7 +75,7 @@ namespace Convertinator.Tests.DefaultConfigurations
         [Test]
         public void ConvertOneMeterToMeters()
         {
-            var oneMeter = new Measurement(SI.Length.Meter, 1M);
+            var oneMeter = new Measurement<decimal>(SI.Length.Meter, 1M);
 
             decimal feet = _length.Convert(oneMeter, SI.Length.Meter);
 

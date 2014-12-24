@@ -1,8 +1,8 @@
 namespace Convertinator
 {
-    public interface IConversionStep
+    public interface IConversionStep<T>
     {
-        decimal Apply(decimal input);
-        IConversionStep Reverse();
+        T Apply(T input);
+        IConversionStep<T> Reverse();
     }
 }

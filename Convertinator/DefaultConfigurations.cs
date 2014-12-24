@@ -4,9 +4,9 @@ namespace Convertinator
 {
     public class DefaultConfigurations
     {
-        public static ConversionGraph Length()
+        public static ConversionGraph<decimal> Length()
         {
-            var graph = new ConversionGraph();
+            var graph = new ConversionGraph<decimal>();
 
             var meters = SI.Length.Meter;
             var kilometers = SI.Length.Kilometer;
@@ -25,50 +25,50 @@ namespace Convertinator
             var yoctometers = SI.Length.Yoctometer;
 
             graph.AddConversion(
-                Conversions.From(meters).To(decimeters).MultiplyBy(10M),
-                Conversions.From(decimeters).To(centimeters).MultiplyBy(10M),
-                Conversions.From(centimeters).To(millimeters).MultiplyBy(10M),
-                Conversions.From(millimeters).To(micrometers).MultiplyBy(1000M),
-                Conversions.From(micrometers).To(nanometers).MultiplyBy(1000M),
-                Conversions.From(nanometers).To(picometers).MultiplyBy(1000M),
-                Conversions.From(picometers).To(femtometers).MultiplyBy(1000M),
-                Conversions.From(femtometers).To(attometers).MultiplyBy(1000M),
-                Conversions.From(attometers).To(zeptometers).MultiplyBy(1000M),
-                Conversions.From(zeptometers).To(yoctometers).MultiplyBy(1000M),
+                Conversions.From<decimal>(meters).To(decimeters).MultiplyBy(10M),
+                Conversions.From<decimal>(decimeters).To(centimeters).MultiplyBy(10M),
+                Conversions.From<decimal>(centimeters).To(millimeters).MultiplyBy(10M),
+                Conversions.From<decimal>(millimeters).To(micrometers).MultiplyBy(1000M),
+                Conversions.From<decimal>(micrometers).To(nanometers).MultiplyBy(1000M),
+                Conversions.From<decimal>(nanometers).To(picometers).MultiplyBy(1000M),
+                Conversions.From<decimal>(picometers).To(femtometers).MultiplyBy(1000M),
+                Conversions.From<decimal>(femtometers).To(attometers).MultiplyBy(1000M),
+                Conversions.From<decimal>(attometers).To(zeptometers).MultiplyBy(1000M),
+                Conversions.From<decimal>(zeptometers).To(yoctometers).MultiplyBy(1000M),
 
-                Conversions.From(meters).To(kilometers).DivideBy(1000M),
-                Conversions.From(meters).To(feet).MultiplyBy(3.28084M),
-                Conversions.From(feet).To(miles).DivideBy(0.000189394M),
-                Conversions.From(feet).To(inches).MultiplyBy(12M)
+                Conversions.From<decimal>(meters).To(kilometers).DivideBy(1000M),
+                Conversions.From<decimal>(meters).To(feet).MultiplyBy(3.28084M),
+                Conversions.From<decimal>(feet).To(miles).DivideBy(0.000189394M),
+                Conversions.From<decimal>(feet).To(inches).MultiplyBy(12M)
                 );
 
             return graph;
         }
 
-        public static ConversionGraph Volume()
+        public static ConversionGraph<decimal> Volume()
         {
-            var graph = new ConversionGraph();
+            var graph = new ConversionGraph<decimal>();
 
             var gallons = US.Volume.Gallon;
             var liter = SI.Volume.Liter;
 
             graph.AddConversion(
-                Conversions.From(gallons).To(liter).MultiplyBy(3.78541M));
+                Conversions.From<decimal>(gallons).To(liter).MultiplyBy(3.78541M));
 
             return graph;
         }
 
-        public static ConversionGraph Time()
+        public static ConversionGraph<decimal> Time()
         {
-            var graph = new ConversionGraph();
+            var graph = new ConversionGraph<decimal>();
 
             var seconds = SI.Time.Second;
             var minutes = SI.Time.Minute;
             var hours = SI.Time.Hour;
 
             graph.AddConversion(
-                Conversions.From(hours).To(minutes).MultiplyBy(60),
-                Conversions.From(minutes).To(seconds).MultiplyBy(60)
+                Conversions.From<decimal>(hours).To(minutes).MultiplyBy(60),
+                Conversions.From<decimal>(minutes).To(seconds).MultiplyBy(60)
                 );
 
             return graph;

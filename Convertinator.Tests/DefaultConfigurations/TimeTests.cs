@@ -6,7 +6,7 @@ namespace Convertinator.Tests.DefaultConfigurations
     [TestFixture]
     public class TimeTests
     {
-        private ConversionGraph _time;
+        private ConversionGraph<decimal> _time;
 
         [SetUp]
         public void SetUp()
@@ -17,7 +17,7 @@ namespace Convertinator.Tests.DefaultConfigurations
         [Test]
         public void OneHourIsSixtyMinutes()
         {
-            _time.Convert(new Measurement("hour", 1M), "minute").Should().Be(60M);
+            _time.Convert(new Measurement<decimal>("hour", 1M), "minute").Should().Be(60M);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Convertinator.Tests
         public void OneUnitDefaultName()
         {
             var meter = new Unit("meter");
-            var oneMeter = new Measurement(meter, 1M);
+            var oneMeter = new Measurement<decimal>(meter, 1M);
 
             oneMeter.ToString().Should().Be("1 meter");
         }
@@ -21,7 +21,7 @@ namespace Convertinator.Tests
             var meter = new Unit("meter")
                 .UsePluralFormat("{0}s");
 
-            var twoMeters = new Measurement(meter, 2M);
+            var twoMeters = new Measurement<decimal>(meter, 2M);
 
             twoMeters.ToString().Should().Be("2 meters");
         }
@@ -32,7 +32,7 @@ namespace Convertinator.Tests
             var unit = new Unit("foot")
                 .PluralizeAs("feet");
 
-            var tenfoot = new Measurement(unit, 10M);
+            var tenfoot = new Measurement<decimal>(unit, 10M);
 
             var phrase = string.Format("I wouldn't touch that with a {0} pole.",
                                        tenfoot.ToAdjectiveString());
@@ -45,7 +45,7 @@ namespace Convertinator.Tests
         {
             var meter = new Unit("meter")
                 .DisplayWithName("metre");
-            var oneMeter = new Measurement(meter, 1M);
+            var oneMeter = new Measurement<decimal>(meter, 1M);
 
             oneMeter.ToString().Should().Be("1 metre");
         }
@@ -57,7 +57,7 @@ namespace Convertinator.Tests
                 .DisplayWithName("metre")
                 .UsePluralFormat("{0}s");
 
-            var measure = new Measurement(meter, 5M);
+            var measure = new Measurement<decimal>(meter, 5M);
 
             measure.ToString().Should().Be("5 metres");
         }
@@ -68,7 +68,7 @@ namespace Convertinator.Tests
             var meter = new Unit("meter")
                 .CanBeAbbreviated("m");
 
-            var oneMeter = new Measurement(meter, 1M);
+            var oneMeter = new Measurement<decimal>(meter, 1M);
 
             oneMeter.ToAbbreviatedString().Should().Be("1 m");
         }
@@ -80,7 +80,7 @@ namespace Convertinator.Tests
                 .CanBeAbbreviated("m")
                 .DisplayWithAbbreviation("mtr");
 
-            var oneMeter = new Measurement(meter, 1M);
+            var oneMeter = new Measurement<decimal>(meter, 1M);
 
             oneMeter.ToAbbreviatedString().Should().Be("1 mtr");
         }

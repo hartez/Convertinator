@@ -7,7 +7,7 @@ namespace Convertinator.Tests.DefaultConfigurations
     [TestFixture]
     public class VolumeTests
     {
-        private ConversionGraph _volume;
+        private ConversionGraph<decimal> _volume;
 
         [SetUp]
         public void SetUp()
@@ -18,7 +18,7 @@ namespace Convertinator.Tests.DefaultConfigurations
         [Test]
         public void ConvertOneGallonToLiters()
         {
-            var gallon = new Measurement(US.Volume.Gallon, 1M);
+            var gallon = new Measurement<decimal>(US.Volume.Gallon, 1M);
 
             decimal liters = _volume.Convert(gallon, SI.Volume.Liter);
 

@@ -4,57 +4,57 @@ namespace Convertinator
 {
     public static class Conversions
     {
-        public static Measurement One(Unit unit)
+        public static Measurement<T> One<T>(Unit unit)
         {
-            return new Measurement(unit, 1M);
+            return new Measurement<T>(unit, Numeric<T>.One());
         }
 
-        public static Measurement From(Unit unit)
+        public static Measurement<T> From<T>(Unit unit)
         {
-            return new Measurement(unit, 1M);
+            return new Measurement<T>(unit, Numeric<T>.One());
         }
 
-        public static Conversion To(this Measurement source, Unit unit)
+        public static Conversion<T> To<T>(this Measurement<T> source, Unit unit)
         {
-            return new Conversion(source.Unit, unit);
+            return new Conversion<T>(source.Unit, unit);
         }
 
-        public static Tuple<Measurement, Measurement> In(this Measurement source, Unit target)
+        public static Tuple<Measurement<T>, Measurement<T>> In<T>(this Measurement<T> source, Unit target)
         {
-            return new Tuple<Measurement, Measurement>(source, One(target));
+            return new Tuple<Measurement<T>, Measurement<T>>(source, One<T>(target));
         }
 
-        public static Conversion Is(this Tuple<Measurement, Measurement> conversion, decimal absolute)
+        public static Conversion<T> Is<T>(this Tuple<Measurement<T>, Measurement<T>> conversion, T absolute)
         {
-            decimal scalar = absolute / conversion.Item1.Value;
+            T scalar = Numeric<T>.Divide(absolute, conversion.Item1.Value);
 
-            var result = new Conversion(conversion.Item1.Unit, conversion.Item2.Unit);
+            var result = new Conversion<T>(conversion.Item1.Unit, conversion.Item2.Unit);
 
-            result.AddStep(new ScalingConversion(scalar));
+            result.AddStep(new ScalingConversion<T>(scalar));
 
             return result;
         }
 
-        public static Conversion Add(this Conversion conversion, decimal value)
+        public static Conversion<T> Add<T>(this Conversion<T> conversion, T value)
         {
-            conversion.AddStep(new OffsetConversion(value));
+            conversion.AddStep(new OffsetConversion<T>(value));
             return conversion;
         }
 
-        public static Conversion Subtract(this Conversion conversion, decimal value)
+        public static Conversion<T> Subtract<T>(this Conversion<T> conversion, T value)
         {
-            return conversion.Add(-value);
+            return conversion.Add<T>(Numeric<T>.Negate(value));
         }
 
-        public static Conversion MultiplyBy(this Conversion conversion, decimal value)
+        public static Conversion<T> MultiplyBy<T>(this Conversion<T> conversion, T value)
         {
-            conversion.AddStep(new ScalingConversion(value));
+            conversion.AddStep(new ScalingConversion<T>(value));
             return conversion;
         }
 
-        public static Conversion DivideBy(this Conversion conversion, decimal value)
+        public static Conversion<T> DivideBy<T>(this Conversion<T> conversion, T value)
         {
-            return conversion.MultiplyBy(1 / value);
+            return conversion.MultiplyBy(Numeric<T>.Invert(value));
         }
     }
 }
