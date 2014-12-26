@@ -1,4 +1,6 @@
-﻿namespace Convertinator.Systems
+﻿using System;
+
+namespace Convertinator.Systems
 {
     public class US
     {
@@ -6,23 +8,23 @@
 
         public static class Length
         {
+            private static readonly Lazy<Unit> _mile = new Lazy<Unit>(() => new Unit("mile").CanBeAbbreviated("mi").SystemIs("US"));
+            private static readonly Lazy<Unit> _foot = new Lazy<Unit>(() => new Unit("foot").CanBeAbbreviated("ft", "'").SystemIs("US").PluralizeAs("feet"));
+            private static readonly Lazy<Unit> _inch = new Lazy<Unit>(() => new Unit("inch").CanBeAbbreviated("in", "\"").SystemIs("US").PluralizeAs("inches"));
+
             public static Unit Mile
             {
-                get
-                {
-                    return new Unit("mile")
-                        .CanBeAbbreviated("mi").SystemIs("US");
-                }
+                get { return _mile.Value; }
             }
 
             public static Unit Foot
             {
-                get { return new Unit("foot").CanBeAbbreviated("ft", "'").SystemIs("US").PluralizeAs("feet"); }
+                get { return _foot.Value; }
             }
 
             public static Unit Inch
             {
-                get { return new Unit("inch").CanBeAbbreviated("in", "\"").SystemIs("US").PluralizeAs("inches"); }
+                get { return _inch.Value; }
             }
         }
 
@@ -32,12 +34,13 @@
 
         public static class Temperature
         {
+            private static readonly Lazy<Unit> _fahrenheit = new Lazy<Unit>(() => new Unit("degrees Fahrenheit").IsAlsoCalled("Fahrenheit"));
+
             public static Unit Fahrenheit
             {
                 get
                 {
-                    return new Unit("degrees Fahrenheit")
-                        .IsAlsoCalled("Fahrenheit");
+                    return _fahrenheit.Value;
                 }
             }
         }
@@ -48,11 +51,11 @@
 
         public static class Volume
         {
+            private static readonly Lazy<Unit> _gallon = new Lazy<Unit>(() => new Unit("gallon").IsAlsoCalled("US liquid gallon").CanBeAbbreviated("gal"));
+
             public static Unit Gallon
             {
-                get { return new Unit("gallon")
-                    .IsAlsoCalled("US liquid gallon")
-                    .CanBeAbbreviated("gal"); }
+                get { return _gallon.Value; }
             }
         }
 
