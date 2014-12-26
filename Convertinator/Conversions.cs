@@ -30,14 +30,14 @@ namespace Convertinator
 
             var result = new Conversion<T>(conversion.Item1.Unit, conversion.Item2.Unit);
 
-            result.AddStep(new ScalingConversion<T>(scalar));
+            result.AddStep(new ScalingStep<T>(scalar));
 
             return result;
         }
 
         public static Conversion<T> Add<T>(this Conversion<T> conversion, T value)
         {
-            conversion.AddStep(new OffsetConversion<T>(value));
+            conversion.AddStep(new OffsetStep<T>(value));
             return conversion;
         }
 
@@ -48,7 +48,7 @@ namespace Convertinator
 
         public static Conversion<T> MultiplyBy<T>(this Conversion<T> conversion, T value)
         {
-            conversion.AddStep(new ScalingConversion<T>(value));
+            conversion.AddStep(new ScalingStep<T>(value));
             return conversion;
         }
 

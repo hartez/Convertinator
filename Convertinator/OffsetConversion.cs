@@ -4,12 +4,12 @@ using System.Diagnostics;
 namespace Convertinator
 {
     [DebuggerDisplay("Add {_offset} to value")]
-    public class OffsetConversion<T> : IConversionStep<T>
+    public class OffsetStep<T> : IConversionStep<T>
     {
         private readonly T _offset;
         private readonly Func<T, T> _offsetFunction;
 
-        public OffsetConversion(T offset)
+        public OffsetStep(T offset)
         {
             _offset = offset;
             _offsetFunction = input => Numeric<T>.Add(input, offset);
@@ -22,7 +22,7 @@ namespace Convertinator
 
         public IConversionStep<T> Reverse()
         {
-            return new OffsetConversion<T>(Numeric<T>.Negate(_offset));
+            return new OffsetStep<T>(Numeric<T>.Negate(_offset));
         }
 
         public override string ToString()
