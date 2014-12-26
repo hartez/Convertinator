@@ -46,8 +46,6 @@ namespace Convertinator.Tests
             var meterMeasurement = new Measurement<decimal>(meter, 1);
             var feetMeasurement = new Measurement<decimal>(feet, 2);
 
-            var x = system.Convert(meterMeasurement, feet);
-
             Assert.That(system.Convert(meterMeasurement, feet) == 3.28084M);
             Assert.That(system.Convert(meterMeasurement, "ft") == 3.28084M);
             Assert.That(system.Convert(feetMeasurement, "metre") == 0.6096M);
