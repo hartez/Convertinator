@@ -62,6 +62,7 @@
     <Compile Include="FileDotEngine.cs" />
     <Compile Include="IConversionStep.cs" />
     <Compile Include="Measurement.cs" />
+    <Compile Include="Numeric.cs" />
     <Compile Include="OffsetConversion.cs" />
     <Compile Include="ScalingConversion.cs" />
     <Compile Include="Systems\SI.cs" />

@@ -4,7 +4,7 @@ using QuickGraph;
 
 namespace Convertinator
 {
-    public class Conversion<T> : Edge<Unit>, IConversion<T>
+    public class Conversion<T> : Edge<Unit>
     {
         private readonly List<IConversionStep<T>> _steps;
 
@@ -35,12 +35,5 @@ namespace Convertinator
 
             return reverse;
         }
-    }
-
-    public interface IConversion<T>
-    {
-        IEnumerable<IConversionStep<T>> Steps { get; }
-        void AddStep(IConversionStep<T> step);
-        Conversion<T>  Reverse();
     }
 }
