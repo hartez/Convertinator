@@ -10,6 +10,11 @@ using QuickGraph.Graphviz.Dot;
 
 namespace Convertinator
 {
+    public class ConversionGraph : ConversionGraph<decimal>
+    {
+
+    }
+
     public class ConversionGraph<T> : BidirectionalGraph<Unit, Conversion<T>>
     {
         private int _decimalPlaces = 4;

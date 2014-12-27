@@ -9,14 +9,14 @@ namespace Convertinator.Tests
     [TestFixture]
     public class ConversionTests
     {
-        private ConversionGraph<decimal> _graph;
+        private ConversionGraph _graph;
         
         #region Setup/Teardown
 
         [SetUp]
         public void Setup()
         {
-            _graph = new ConversionGraph<decimal>();
+            _graph = new ConversionGraph();
 
             var meter = SI.Length.Meter;
             var feet = US.Length.Foot;
