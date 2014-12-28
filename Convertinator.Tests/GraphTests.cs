@@ -13,8 +13,6 @@ namespace Convertinator.Tests
         [SetUp]
         public void Setup()
         {
-            _graph = new ConversionGraph<decimal>();
-
             var meter = SI.Length.Meter;
 
             meter
@@ -25,12 +23,12 @@ namespace Convertinator.Tests
             var feet = US.Length.Foot;
             feet.PluralizeAs("feet");
 
-            Conversion<decimal> c = Conversions.One<decimal>(meter).In(feet).Is(3.28084M);
+            var c = Conversions.One<decimal>(meter).In(feet).Is(3.28084M);
+            var x = Conversions.One<decimal>(SI.Length.Kilometer).In(meter).Is(1000M); 
+
+            _graph = ConversionGraph.Build();
 
             _graph.AddConversion(c);
-
-            Conversion<decimal> x = Conversions.One<decimal>(SI.Length.Kilometer).In(meter).Is(1000M);
-
             _graph.AddConversion(x);
 
             _graph
@@ -53,7 +51,7 @@ namespace Convertinator.Tests
         [Test]
         public void FindVertexForLiterShouldFail()
         {
-            Unit start = _graph.FindVertex(new Measurement<decimal>(SI.Volume.Liter, 42M));
+            Unit start = _graph.FindVertex(new Measurement(SI.Volume.Liter, 42M));
 
             start.Should().BeNull();
         }
@@ -61,7 +59,7 @@ namespace Convertinator.Tests
         [Test]
         public void FindVertexForMeterShouldSucceed()
         {
-            Unit start = _graph.FindVertex(new Measurement<decimal>(SI.Length.Meter, 42M));
+            Unit start = _graph.FindVertex(new Measurement(SI.Length.Meter, 42M));
 
             start.Should().NotBeNull();
         }
@@ -69,7 +67,7 @@ namespace Convertinator.Tests
         [Test]
         public void FindVertexForPluralFormatShouldSucceed()
         {
-            Unit start = _graph.FindVertex(new Measurement<decimal>("meters", 42M));
+            Unit start = _graph.FindVertex(new Measurement("meters", 42M));
 
             start.Should().NotBeNull();
         }
@@ -77,7 +75,7 @@ namespace Convertinator.Tests
         [Test]
         public void FindVertexForExplicitPluralShouldSucceed()
         {
-            Unit start = _graph.FindVertex(new Measurement<decimal>("feet", 42M));
+            Unit start = _graph.FindVertex(new Measurement("feet", 42M));
 
             start.Should().NotBeNull();
         }
@@ -105,11 +103,11 @@ namespace Convertinator.Tests
         [Test]
         public void FindVertexForMeasurementFromMeterAliasShouldSucceed()
         {
-            Unit start = _graph.FindVertex(new Measurement<decimal>("Metres", 10));
+            Unit start = _graph.FindVertex(new Measurement("Metres", 10));
 
             start.Should().NotBeNull();
 
-            start = _graph.FindVertex(new Measurement<decimal>("mtr", 10));
+            start = _graph.FindVertex(new Measurement("mtr", 10));
 
             start.Should().NotBeNull();
         }
@@ -117,7 +115,7 @@ namespace Convertinator.Tests
         [Test]
         public void FindVertexForMeasurementFromMeterNameShouldSucceed()
         {
-            Unit start = _graph.FindVertex(new Measurement<decimal>("Metres", 10));
+            Unit start = _graph.FindVertex(new Measurement("Metres", 10));
 
             start.Should().NotBeNull();
         }
@@ -133,14 +131,14 @@ namespace Convertinator.Tests
         [Test]
         public void NonexistentSourceUnitsShouldThrowException()
         {
-            var oneFoo = new Measurement<decimal>(new Unit("foo"), 1M);
+            var oneFoo = new Measurement(new Unit("foo"), 1M);
             Assert.Throws(typeof(ConversionNotFoundException), () => _graph.Convert(oneFoo, US.Length.Foot));
         }
 
         [Test]
         public void NonexistentTargetUnitsShouldThrowException()
         {
-            var oneMeter = new Measurement<decimal>(SI.Length.Meter, 1M);
+            var oneMeter = new Measurement(SI.Length.Meter, 1M);
             Assert.Throws(typeof(ConversionNotFoundException), () => _graph.Convert(oneMeter, new Unit("foo")));
         }
     }

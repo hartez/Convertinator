@@ -8,22 +8,22 @@ namespace Convertinator.Tests
         [Test]
         public void IndirectConversion()
         {
-            var system = new ConversionGraph<decimal>();
+            var system = ConversionGraph.Build();
 
             var meter = new Unit("meter");
             var kilometer = new Unit("kilometer");
             var foot = new Unit("foot");
             
             system.AddConversion(
-                Conversions.From<decimal>(kilometer).To(meter).MultiplyBy(1000M),
-                Conversions.From<decimal>(meter).To(foot).MultiplyBy(3.28084M)
+                Conversions.From(kilometer).To(meter).MultiplyBy(1000M),
+                Conversions.From(meter).To(foot).MultiplyBy(3.28084M)
                 );
 
-            var measurement = new Measurement<decimal>(kilometer, 100M);
+            var measurement = new Measurement(kilometer, 100M);
 
             Assert.That(system.Convert(measurement, foot) == 328084M);
 
-            Assert.That(system.Convert(new Measurement<decimal>(foot, 328084M), kilometer) == 100M);
+            Assert.That(system.Convert(new Measurement(foot, 328084M), kilometer) == 100M);
         }
 
         [Test]
@@ -38,13 +38,13 @@ namespace Convertinator.Tests
                 .PluralizeAs("feet")
                 .CanBeAbbreviated("ft");
 
-            var system = new ConversionGraph<decimal>()
+            var system = ConversionGraph.Build()
                 .RoundToDecimalPlaces(5);
 
-            system.AddConversion(Conversions.One<decimal>(meter).In(feet).Is(3.28084M));
+            system.AddConversion(Conversions.One(meter).In(feet).Is(3.28084M));
 
-            var meterMeasurement = new Measurement<decimal>(meter, 1);
-            var feetMeasurement = new Measurement<decimal>(feet, 2);
+            var meterMeasurement = new Measurement(meter, 1);
+            var feetMeasurement = new Measurement(feet, 2);
 
             Assert.That(system.Convert(meterMeasurement, feet) == 3.28084M);
             Assert.That(system.Convert(meterMeasurement, "ft") == 3.28084M);

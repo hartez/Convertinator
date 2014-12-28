@@ -14,7 +14,7 @@ namespace Convertinator.Tests
         [SetUp]
         public void Setup()
         {
-            _graph = new ConversionGraph<decimal>();
+            _graph = ConversionGraph.Build();
 
             var meter = SI.Length.Meter;
             var mile = US.Length.Mile;
@@ -28,11 +28,11 @@ namespace Convertinator.Tests
             var picometer = new Unit("picometer").SystemIs("metric");
             nanofoot.HasCounterPart(nanometer);
 
-            _graph.AddConversion(Conversions.One<decimal>(meter).In(feet).Is(3.28084M));
-            _graph.AddConversion(Conversions.One<decimal>(kilometer).In(meter).Is(1000M));
-            _graph.AddConversion(Conversions.One<decimal>(mile).In(feet).Is(5280M));
-            _graph.AddConversion(Conversions.From<decimal>(feet).To(nanofoot).MultiplyBy(0.000000001M));
-            _graph.AddConversion(Conversions.From<decimal>(picometer).To(nanometer).MultiplyBy(0.001M));
+            _graph.AddConversion(Conversions.One(meter).In(feet).Is(3.28084M));
+            _graph.AddConversion(Conversions.One(kilometer).In(meter).Is(1000M));
+            _graph.AddConversion(Conversions.One(mile).In(feet).Is(5280M));
+            _graph.AddConversion(Conversions.From(feet).To(nanofoot).MultiplyBy(0.000000001M));
+            _graph.AddConversion(Conversions.From(picometer).To(nanometer).MultiplyBy(0.001M));
             _graph
                 .RoundUsing(MidpointRounding.AwayFromZero)
                 .RoundToDecimalPlaces(4);

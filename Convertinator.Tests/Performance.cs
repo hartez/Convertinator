@@ -13,7 +13,7 @@ namespace Convertinator.Tests
         [SetUp]
         public void Setup()
         {
-            _graph = new ConversionGraph<double>();
+            _graph = ConversionGraph<double>.Build();
 
             var meter = SI.Length.Meter;
             var mile = US.Length.Mile;

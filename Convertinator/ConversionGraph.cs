@@ -10,15 +10,40 @@ using QuickGraph.Graphviz.Dot;
 
 namespace Convertinator
 {
-    public class ConversionGraph : ConversionGraph<decimal>
+    public static class ConversionGraph 
     {
+        public static ConversionGraph<T> Build<T>(params Conversion<T>[] conversions)
+        {
+            return ConversionGraph<T>.Build(conversions);
+        }
 
+        public static ConversionGraph<decimal> Build(params Conversion<decimal>[] conversions)
+        {
+            return Build<decimal>(conversions);
+        }
     }
+
+    // TODO Think about making the FindVertex methods private and removing those tests
+    // TODO think about having the graph be internal (instead of deriving from it) so there aren't so many normally unused methods on ConversionGraph
+    // TODO Think about a method for configuring the rounding method per type (basically a type -> method array we keep)
 
     public class ConversionGraph<T> : BidirectionalGraph<Unit, Conversion<T>>
     {
         private int _decimalPlaces = 4;
         private MidpointRounding _roundingMode;
+
+        public static ConversionGraph<T> Build(params Conversion<T>[] conversions)
+        {
+            var graph = new ConversionGraph<T>();
+
+            graph.AddConversions(conversions);
+
+            return graph;
+        }
+
+        protected ConversionGraph()
+        {
+        }
 
         public ConversionGraph<T> RoundToDecimalPlaces(int decimalPlaces)
         {
@@ -32,19 +57,21 @@ namespace Convertinator
             return this;
         }
 
+        public void AddConversions(params Conversion<T>[] conversions)
+        {
+            foreach (var additionalConversion in conversions)
+            {
+                AddVerticesAndEdge(additionalConversion);
+                AddVerticesAndEdge(additionalConversion.Reverse());
+            }
+        }
+
         public void AddConversion(Conversion<T> conversion, params Conversion<T>[] moreConversions)
         {
             AddVerticesAndEdge(conversion);
             AddVerticesAndEdge(conversion.Reverse());
-
-            if(moreConversions.Length > 0)
-            {
-                foreach(var additionalConversion in moreConversions)
-                {
-                    AddVerticesAndEdge(additionalConversion);
-                    AddVerticesAndEdge(additionalConversion.Reverse());
-                }
-            }
+            
+            AddConversions(moreConversions);
         }
 
         public IEnumerable<Unit> ConfiguredUnits

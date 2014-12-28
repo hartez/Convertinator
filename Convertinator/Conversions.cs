@@ -9,9 +9,19 @@ namespace Convertinator
             return new Measurement<T>(unit, Numeric<T>.One());
         }
 
+        public static Measurement One(Unit unit)
+        {
+            return new Measurement(unit, Numeric<decimal>.One());
+        }
+
         public static Measurement<T> From<T>(Unit unit)
         {
             return new Measurement<T>(unit, Numeric<T>.One());
+        }
+
+        public static Measurement From(Unit unit)
+        {
+            return new Measurement(unit, Numeric<decimal>.One());
         }
 
         public static Conversion<T> To<T>(this Measurement<T> source, Unit unit)

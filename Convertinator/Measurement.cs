@@ -1,5 +1,16 @@
 namespace Convertinator
 {
+    public class Measurement : Measurement<decimal>
+    {
+        public Measurement(Unit unit, decimal value) : base(unit, value)
+        {
+        }
+
+        public Measurement(string unit, decimal value) : base(unit, value)
+        {
+        }
+    }
+
     public class Measurement<T>
     {
         public Measurement(Unit unit, T value)

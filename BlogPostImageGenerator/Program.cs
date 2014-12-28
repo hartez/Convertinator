@@ -10,7 +10,7 @@ namespace BlogPostImageGenerator
             // Quick and dirty example of generating graph images for debugging
             // This assumes you have Graphviz 2.28 installed
 
-            var meter_to_feet = new ConversionGraph<decimal>();
+            var meter_to_feet = ConversionGraph.Build();
 
             var meter = new Unit("meter");
             var feet = new Unit("foot");
@@ -21,7 +21,7 @@ namespace BlogPostImageGenerator
 
             Process.Start(@"C:\Program Files (x86)\Graphviz 2.28\bin\dot.exe", "-Tpng meter_feet.dot -o meter_feet.png");
 
-            var more_complex = new ConversionGraph<decimal>();
+            var more_complex = ConversionGraph.Build();
 
             var kilometer = new Unit("kilometer");
             var inches = new Unit("inch");
