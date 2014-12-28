@@ -24,13 +24,14 @@ namespace Convertinator
     }
 
     // TODO Think about a method for configuring the rounding method per type (basically a type -> method array we keep)
+    // TODO Add a method for disabling rounding altogether
 
     public class ConversionGraph<T> 
     {
         private int _decimalPlaces = 4;
         private MidpointRounding _roundingMode;
 
-        private BidirectionalGraph<Unit, Conversion<T>> _graph;
+        private readonly BidirectionalGraph<Unit, Conversion<T>> _graph;
 
         public static ConversionGraph<T> Build(params Conversion<T>[] conversions)
         {
