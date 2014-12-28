@@ -27,11 +27,11 @@ namespace Convertinator.Tests
             var picometer = new Unit("picometer").SystemIs("metric");
             nanofoot.HasCounterPart(nanometer);
 
-            _graph.AddConversion(Conversions.One<double>(meter).In(feet).Is(3.28084d));
-            _graph.AddConversion(Conversions.One<double>(kilometer).In(meter).Is(1000d));
-            _graph.AddConversion(Conversions.One<double>(mile).In(feet).Is(5280d));
-            _graph.AddConversion(Conversions.From<double>(feet).To(nanofoot).MultiplyBy(0.000000001d));
-            _graph.AddConversion(Conversions.From<double>(picometer).To(nanometer).MultiplyBy(0.001d));
+            _graph.AddConversion(WhenConverting.One<double>(meter).In(feet).Is(3.28084d));
+            _graph.AddConversion(WhenConverting.One<double>(kilometer).In(meter).Is(1000d));
+            _graph.AddConversion(WhenConverting.One<double>(mile).In(feet).Is(5280d));
+            _graph.AddConversion(WhenConverting.From<double>(feet).To(nanofoot).MultiplyBy(0.000000001d));
+            _graph.AddConversion(WhenConverting.From<double>(picometer).To(nanometer).MultiplyBy(0.001d));
             _graph
                 .RoundUsing(MidpointRounding.AwayFromZero)
                 .RoundToDecimalPlaces(4);

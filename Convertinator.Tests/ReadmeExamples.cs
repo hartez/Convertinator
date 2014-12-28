@@ -15,8 +15,8 @@ namespace Convertinator.Tests
             var foot = new Unit("foot");
             
             system.AddConversion(
-                Conversions.From(kilometer).To(meter).MultiplyBy(1000M),
-                Conversions.From(meter).To(foot).MultiplyBy(3.28084M)
+                WhenConverting.From(kilometer).To(meter).MultiplyBy(1000M),
+                WhenConverting.From(meter).To(foot).MultiplyBy(3.28084M)
                 );
 
             var measurement = new Measurement(kilometer, 100M);
@@ -41,7 +41,7 @@ namespace Convertinator.Tests
             var system = ConversionGraph.Build()
                 .RoundToDecimalPlaces(5);
 
-            system.AddConversion(Conversions.One(meter).In(feet).Is(3.28084M));
+            system.AddConversion(WhenConverting.One(meter).In(feet).Is(3.28084M));
 
             var meterMeasurement = new Measurement(meter, 1);
             var feetMeasurement = new Measurement(feet, 2);

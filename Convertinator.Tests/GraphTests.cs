@@ -24,8 +24,8 @@ namespace Convertinator.Tests
             var feet = US.Length.Foot;
             feet.PluralizeAs("feet");
 
-            var c = Conversions.One<decimal>(meter).In(feet).Is(3.28084M);
-            var x = Conversions.One<decimal>(SI.Length.Kilometer).In(meter).Is(1000M); 
+            var c = WhenConverting.One(meter).In(feet).Is(3.28084M);
+            var x = WhenConverting.One(SI.Length.Kilometer).In(meter).Is(1000M); 
 
             _graph = ConversionGraph.Build();
 

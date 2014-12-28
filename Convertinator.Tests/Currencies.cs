@@ -15,7 +15,7 @@ namespace Convertinator.Tests
 
             var system = ConversionGraph.Build().RoundToDecimalPlaces(2);
 
-            system.AddConversion(Conversions.One(dollar).In(yen).Is(78.5300M));
+            system.AddConversion(WhenConverting.One(dollar).In(yen).Is(78.5300M));
 
             var dollarAmount = new Measurement(dollar, 10);
             var yenAmount = new Measurement(yen, 10000);

@@ -19,8 +19,8 @@ namespace Convertinator.Tests
             var feet = US.Length.Foot;
             var kilometer = SI.Length.Kilometer;
 
-            var c = Conversions.One(meter).In(feet).Is(3.28084M);
-            var x = Conversions.One(kilometer).In(meter).Is(1000M);
+            var c = WhenConverting.One(meter).In(feet).Is(3.28084M);
+            var x = WhenConverting.One(kilometer).In(meter).Is(1000M);
 
             _graph = ConversionGraph.Build(x, c)
                 .RoundUsing(MidpointRounding.AwayFromZero)

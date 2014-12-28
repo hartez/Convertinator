@@ -64,8 +64,8 @@
     <Compile Include="IConversionStep.cs" />
     <Compile Include="Measurement.cs" />
     <Compile Include="Numeric.cs" />
-    <Compile Include="OffsetConversion.cs" />
-    <Compile Include="ScalingConversion.cs" />
+    <Compile Include="OffsetStep.cs" />
+    <Compile Include="ScalingStep.cs" />
     <Compile Include="Systems\SI.cs" />
     <Compile Include="Systems\US.cs" />
     <Compile Include="Unit.cs" />

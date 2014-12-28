@@ -15,7 +15,7 @@ namespace BlogPostImageGenerator
             var meter = new Unit("meter");
             var feet = new Unit("foot");
 
-            meter_to_feet.AddConversion(Conversions.One<decimal>(meter).In(feet).Is(3.28084M));
+            meter_to_feet.AddConversion(WhenConverting.One<decimal>(meter).In(feet).Is(3.28084M));
 
             meter_to_feet.ToDotFile("meter_feet.dot", VisualizationOptions.None);
 
@@ -27,9 +27,9 @@ namespace BlogPostImageGenerator
             var inches = new Unit("inch");
 
             more_complex.AddConversion(
-                Conversions.From<decimal>(kilometer).To(meter).MultiplyBy(1000M),
-                Conversions.From<decimal>(meter).To(feet).MultiplyBy(3.28084M),
-                Conversions.From<decimal>(feet).To(inches).MultiplyBy(12M)
+                WhenConverting.From<decimal>(kilometer).To(meter).MultiplyBy(1000M),
+                WhenConverting.From<decimal>(meter).To(feet).MultiplyBy(3.28084M),
+                WhenConverting.From<decimal>(feet).To(inches).MultiplyBy(12M)
                 );
 
             more_complex.ToDotFile("more_complex.dot", VisualizationOptions.NumberEdges);

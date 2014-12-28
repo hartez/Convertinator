@@ -47,7 +47,6 @@ namespace Convertinator
                 return (T)(dynamic)Math.Round((decimal)value, decimalPlaces, roundingMode);
             }
 
-            // TODO We need to just remove rounding from this altogether
             return (T)value;
         }
     }

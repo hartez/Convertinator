@@ -35,5 +35,29 @@ namespace Convertinator
 
             return reverse;
         }
+
+        public Conversion<T> Add(T value)
+        {
+            AddStep(new OffsetStep<T>(value));
+            return this;
+        }
+
+        public Conversion<T> Subtract(T value)
+        {
+            Add(Numeric<T>.Negate(value));
+            return this;
+        }
+
+        public Conversion<T> MultiplyBy(T value)
+        {
+            AddStep(new ScalingStep<T>(value));
+            return this;
+        }
+
+        public Conversion<T> DivideBy(T value)
+        {
+            MultiplyBy(Numeric<T>.Invert(value));
+            return this;
+        }
     }
 }

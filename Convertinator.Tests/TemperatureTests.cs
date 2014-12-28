@@ -15,8 +15,8 @@ namespace Convertinator.Tests
             // Or maybe change it to "WhenConverting"?
 
             _graph = ConversionGraph.Build(
-                Conversions.From(US.Temperature.Fahrenheit).To(SI.Temperature.Celcius).Subtract(32).MultiplyBy(5M / 9M),
-                Conversions.From(SI.Temperature.Celcius).To(new Unit("Kelvin")).Add(273.15M))
+                WhenConverting.From(US.Temperature.Fahrenheit).To(SI.Temperature.Celcius).Subtract(32).MultiplyBy(5M / 9M),
+                WhenConverting.From(SI.Temperature.Celcius).To(new Unit("Kelvin")).Add(273.15M))
                 .RoundUsing(MidpointRounding.AwayFromZero).RoundToDecimalPlaces(4);
 
             SI.Temperature.Celcius
