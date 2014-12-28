@@ -23,14 +23,14 @@ namespace Convertinator
         }
     }
 
-    // TODO Think about making the FindVertex methods private and removing those tests
-    // TODO think about having the graph be internal (instead of deriving from it) so there aren't so many normally unused methods on ConversionGraph
     // TODO Think about a method for configuring the rounding method per type (basically a type -> method array we keep)
 
-    public class ConversionGraph<T> : BidirectionalGraph<Unit, Conversion<T>>
+    public class ConversionGraph<T> 
     {
         private int _decimalPlaces = 4;
         private MidpointRounding _roundingMode;
+
+        private BidirectionalGraph<Unit, Conversion<T>> _graph;
 
         public static ConversionGraph<T> Build(params Conversion<T>[] conversions)
         {
@@ -43,6 +43,7 @@ namespace Convertinator
 
         protected ConversionGraph()
         {
+            _graph = new BidirectionalGraph<Unit, Conversion<T>>();
         }
 
         public ConversionGraph<T> RoundToDecimalPlaces(int decimalPlaces)
@@ -61,37 +62,37 @@ namespace Convertinator
         {
             foreach (var additionalConversion in conversions)
             {
-                AddVerticesAndEdge(additionalConversion);
-                AddVerticesAndEdge(additionalConversion.Reverse());
+                _graph.AddVerticesAndEdge(additionalConversion);
+                _graph.AddVerticesAndEdge(additionalConversion.Reverse());
             }
         }
 
         public void AddConversion(Conversion<T> conversion, params Conversion<T>[] moreConversions)
         {
-            AddVerticesAndEdge(conversion);
-            AddVerticesAndEdge(conversion.Reverse());
+            _graph.AddVerticesAndEdge(conversion);
+            _graph.AddVerticesAndEdge(conversion.Reverse());
             
             AddConversions(moreConversions);
         }
 
         public IEnumerable<Unit> ConfiguredUnits
         {
-            get { return Vertices; }
+            get { return _graph.Vertices; }
         }
 
-        public Unit FindVertex(Measurement<T> measurement)
+        private Unit FindVertex(Measurement<T> measurement)
         {
             return FindVertex(measurement.Unit);
         }
 
-        public Unit FindVertex(Unit unit)
+        private Unit FindVertex(Unit unit)
         {
             return FindVertex(unit.Name);
         }
 
-        public Unit FindVertex(string unit)
+        private Unit FindVertex(string unit)
         {
-            return Vertices.FirstOrDefault(u => u.Matches(unit));
+            return _graph.Vertices.FirstOrDefault(u => u.Matches(unit));
         }
 
         public T Convert(Measurement<T> source, string target)
@@ -153,7 +154,7 @@ namespace Convertinator
             // Find a path from the source to the target
             Func<Conversion<T>, double> edgeCost = e => 1;
 
-            TryFunc<Unit, IEnumerable<Conversion<T>>> tryGetPaths = this.ShortestPathsDijkstra(edgeCost, start);
+            TryFunc<Unit, IEnumerable<Conversion<T>>> tryGetPaths = _graph.ShortestPathsDijkstra(edgeCost, start);
 
             IEnumerable<Conversion<T>> path;
 
@@ -223,7 +224,7 @@ namespace Convertinator
             // See if we can find any units for the target system and, if so, whether there's a path 
             // to convert to any of them. If so, use the shortest one (implied counterpart)
             var candidates = new List<Unit>();
-            var search = new DepthFirstSearchAlgorithm<Unit, Conversion<T>>(this);
+            var search = new DepthFirstSearchAlgorithm<Unit, Conversion<T>>(_graph);
             search.DiscoverVertex += vertex =>
                                             {
                                                 if(vertex.System == system)
@@ -245,7 +246,7 @@ namespace Convertinator
 
         public void ToDotFile(string path, VisualizationOptions options)
         {
-            var graphviz = new GraphvizAlgorithm<Unit, Conversion<T>>(this);
+            var graphviz = new GraphvizAlgorithm<Unit, Conversion<T>>(_graph);
 
             graphviz.GraphFormat.RankDirection = GraphvizRankDirection.LR;
 
