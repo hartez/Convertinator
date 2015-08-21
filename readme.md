@@ -2,6 +2,8 @@
 
 Convertinator is designed to  allow you to easily define a system of units of measurement and conversions between them. 
 
+Most of what you need to get started is below; a more detailed-writeup is available [here](http://www.codewise-llc.com/blog/2012/10/12/converting-units-of-measure-with-convertinator).
+
 ## Defining Conversions ##
 
 Conversions between units are defined as a bidirectional graph. This means that you don't have to explicitly define conversions for every possible combination of units - if a path between your two units exists, Convertinator can string together intermediate conversions to make it work.
